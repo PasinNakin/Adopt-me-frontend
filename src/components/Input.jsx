@@ -30,11 +30,32 @@
 //     );
 // }
 
-export default function Input() {
+export default function Input({
+    type = "text",
+    placeholder,
+    text,
+    value,
+    onChange,
+    name,
+}) {
     return (
-        <>
-            <input type="text" />
-            <small className="text-red-500 ">error</small>
-        </>
+        <label className="form-control w-full max-w-md">
+            <div className="label">
+                <span className="label-text text-xl text-white">{text}</span>
+            </div>
+            <input
+                type={type}
+                placeholder={placeholder}
+                value={value}
+                className="input input-bordered w-full max-w-full text-black bg-white h-8"
+                onChange={onChange}
+                name={name}
+            />
+            <div className="label">
+                <span className="label-text-alt text-red-600">
+                    Error message
+                </span>
+            </div>
+        </label>
     );
 }
