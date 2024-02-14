@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage";
 import RegisterPage from "../pages/RegisterPage";
 import DogProfile from "../pages/DogProfile";
 import AllDogPage from "../pages/AllDogPage";
+import RedirectIfAuthenticated from "../features/auth/components/RedirectIfAuthenticated";
 
 const router = createBrowserRouter([
     {
@@ -11,7 +12,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/register",
-        element: <RegisterPage />,
+        element: (
+            <RedirectIfAuthenticated>
+                <RegisterPage />
+            </RedirectIfAuthenticated>
+        ),
     },
     {
         path: "/dogprofile",

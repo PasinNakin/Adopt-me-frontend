@@ -22,7 +22,6 @@ export default function RegisterPage() {
                         <RegisterForm />
                     </div>
                 </div>
-                <div>{/* <Modal /> */}</div>
             </div>
         </div>
     );

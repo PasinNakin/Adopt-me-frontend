@@ -15,7 +15,6 @@ export default function Modal({ title, onClose }) {
                             </h5>
                             <button>&#10005;</button>
                         </div>
-                        <LoginForm />
                     </div>
                 </div>
             </div>

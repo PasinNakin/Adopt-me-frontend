@@ -1,3 +1,6 @@
+import Joi from "joi";
+import validate from "../../../utils/validate";
+
 const registerSchema = Joi.object({
     firstName: Joi.string().required().trim().messages({
         "string.empty": "first name is required",
@@ -44,5 +47,6 @@ const registerSchema = Joi.object({
         })
         .strip(),
 });
+const validateRegister = (input) => validate(registerSchema)(input);
 
-export default registerSchema;
+export default validateRegister;
