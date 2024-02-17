@@ -16,7 +16,7 @@ const initial = {
 
 export default function RegisterForm() {
     const [input, setInput] = useState(initial);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState({});
 
     const { register } = useAuth();
 
@@ -27,10 +27,13 @@ export default function RegisterForm() {
             if (validateError) {
                 return setError(validateError);
             }
+            console.log("before");
             await register(input);
+            console.log("after");
+            alert("register success");
         } catch (err) {
             if (err.response?.data.message === "email has already in use") {
-                setError({ email: "already in use" });
+                setError({ email: "already in use", mobile: "alredy in use" });
             }
         }
     };

@@ -1,16 +1,13 @@
 import React from "react";
 import HeaderNav from "../layouts/HeaderNav";
-import Input from "../components/Input";
-import Button from "../components/Button";
 import RegisterForm from "../features/auth/components/RegisterForm";
-import Modal from "../components/Modal";
+import CreateDogForm from "../features/dog/components/CreateDogForm";
 
 export default function RegisterPage() {
     return (
         <div>
             <HeaderNav />
-
-            <div className="">
+            <div>
                 <div className="bg-[#1D2144] p-10 "></div>
                 <div className="bg-[#272D51] ">
                     <div className="flex justify-between">
