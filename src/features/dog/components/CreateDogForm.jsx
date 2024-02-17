@@ -5,6 +5,7 @@ import TextArea from "../../../components/TextArea";
 import useDog from "../../../hooks/use-dog";
 import SelectOption from "../../../components/SelectOption";
 import validateCreateDog from "../validations/validation-create-dog";
+import { toast } from "react-toastify";
 
 const initial = {
     name: "",
@@ -18,9 +19,8 @@ const initial = {
 export default function CreateDogForm() {
     const [input, setInput] = useState(initial);
     const [error, setError] = useState({});
+    const [image, setImage] = useState(null);
     const { breed, createDog } = useDog();
-
-    console.log(typeof input.breedId, input.breedId);
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -33,10 +33,20 @@ export default function CreateDogForm() {
             if (validateError) {
                 return setError(validateError);
             }
-            alert("if success");
-            await createDog(input);
+            const formData = new FormData();
+            formData.append("name", input.name);
+            formData.append("age", input.age);
+            formData.append("breedId", input.breedId);
+            formData.append("gender", input.gender);
+            formData.append("description", input.description);
+
+            formData.append("profileImage", image);
+
+            await createDog(formData);
+
+            toast.success("create successfully");
         } catch (err) {
-            console.log(err);
+            toast.error(err.response?.data.message);
         }
     };
 
@@ -96,7 +106,10 @@ export default function CreateDogForm() {
                 value={input.profileImage}
                 text="Dog Image"
                 placeholder="Choose picture"
-                onChange={handleChangeInput}
+                onChange={(e) => {
+                    setInput({ ...input, [e.target.name]: e.target.value });
+                    setImage(e.target.files[0]);
+                }}
                 errorMessage={error.profileImage}
             />
             <TextArea
