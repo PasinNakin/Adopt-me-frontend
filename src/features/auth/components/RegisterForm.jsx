@@ -27,9 +27,9 @@ export default function RegisterForm() {
             if (validateError) {
                 return setError(validateError);
             }
-            console.log("before");
+            // console.log("before");
             await register(input);
-            console.log("after");
+            // console.log("after")
             alert("register success");
         } catch (err) {
             if (err.response?.data.message === "email has already in use") {

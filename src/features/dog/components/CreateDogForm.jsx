@@ -2,26 +2,47 @@ import { useState } from "react";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import TextArea from "../../../components/TextArea";
+import useDog from "../../../hooks/use-dog";
+import SelectOption from "../../../components/SelectOption";
+import validateCreateDog from "../validations/validation-create-dog";
 
 const initial = {
     name: "",
     age: "",
-    breed: "",
+    breedId: "",
     gender: "",
-    dogImage: "",
+    profileImage: "",
     description: "",
 };
 
 export default function CreateDogForm() {
     const [input, setInput] = useState(initial);
+    const [error, setError] = useState({});
+    const { breed, createDog } = useDog();
+
+    console.log(typeof input.breedId, input.breedId);
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
+    const handleFormSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            const validateError = validateCreateDog(input);
+            if (validateError) {
+                return setError(validateError);
+            }
+            alert("if success");
+            await createDog(input);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <form
-            // onSubmit={handleFormSubmit}
+            onSubmit={handleFormSubmit}
             className="flex flex-col flex-1 justify-center items-center "
         >
             <h1 className="text-[3rem] font-bold pt-20 text-white ">
@@ -29,67 +50,54 @@ export default function CreateDogForm() {
             </h1>
             <Input
                 name="name"
-                value={input.email}
+                value={input.name}
                 text="name"
                 placeholder="dog name"
                 onChange={handleChangeInput}
-                // errorMessage={error.email}
+                errorMessage={error.name}
             />
-
-            <label className="form-control w-full max-w-md">
-                <div className="label">
-                    <span className="label-text text-xl text-white">Age</span>
-                </div>
-                <select
-                    className="select select-bordered bg-white text-black  text-[1.1rem] "
-                    onChange={handleChangeInput}
-                    name="age"
-                >
-                    <option disabled selected>
-                        --please select--
-                    </option>
-                    <option value="PUPPY">Puppy</option>
-                    <option value="ADULT">Adult</option>
-                    <option value="SENIOR">Senior</option>
-                </select>
-            </label>
-
-            <Input
-                name="breed"
-                value={input.confirmPassword}
-                text="Breed"
-                placeholder="select breed"
+            <SelectOption
                 onChange={handleChangeInput}
-                // errorMessage={error.confirmPassword}
-            />
+                name="age"
+                text="Age"
+                errorMessage={error.age}
+            >
+                <option value="PUPPY">Puppy</option>
+                <option value="ADULT">Adult</option>
+                <option value="SENIOR">Senior</option>
+            </SelectOption>
 
-            <label className="form-control w-full max-w-md">
-                <div className="label">
-                    <span className="label-text text-xl text-white">
-                        Gender
-                    </span>
-                </div>
-                <select
-                    className="select select-bordered bg-white text-black  text-[1.1rem] "
-                    onChange={handleChangeInput}
-                    name="gender"
-                >
-                    <option disabled selected>
-                        --please select--
+            <SelectOption
+                onChange={handleChangeInput}
+                name="breedId"
+                text="Breed"
+                errorMessage={error.breedId}
+            >
+                {breed.breed?.map((el) => (
+                    <option key={el.id} value={el.id}>
+                        {el.dogBreed}
                     </option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
-                </select>
-            </label>
+                ))}
+            </SelectOption>
+
+            <SelectOption
+                onChange={handleChangeInput}
+                name="gender"
+                text="Gender"
+                errorMessage={error.gender}
+            >
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+            </SelectOption>
 
             <Input
-                name="dogImage"
+                name="profileImage"
                 type="file"
-                value={input.firstName}
+                value={input.profileImage}
                 text="Dog Image"
                 placeholder="Choose picture"
                 onChange={handleChangeInput}
-                // errorMessage={error.firstName}
+                errorMessage={error.profileImage}
             />
             <TextArea
                 name="description"

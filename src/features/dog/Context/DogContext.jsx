@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from "react";
-import * as dogApi from "../../api/dog";
+import * as dogApi from "../../../api/dog";
 
 export const DogContext = createContext();
 
 export default function DogContextProvider({ children }) {
-    const [breed, setBreed] = useState();
+    const [breed, setBreed] = useState([]);
 
     useEffect(() => {
         dogApi
@@ -12,9 +12,14 @@ export default function DogContextProvider({ children }) {
             .then((res) => setBreed(res.data))
             .catch((err) => console.log(err));
     }, []);
-    console.log(breed);
+
+    const createDog = async (formdata) => {
+        console.log(formdata);
+        await dogApi.createDog(formdata);
+    };
+
     return (
-        <DogContext.Provider value={{ breed, setBreed }}>
+        <DogContext.Provider value={{ breed, setBreed, createDog }}>
             {children}
         </DogContext.Provider>
     );
