@@ -34,7 +34,7 @@ export default function CreateDogForm() {
                 return setError(validateError);
             }
             const formData = new FormData();
-            formData.append("name", input.name);
+            formData.append("name", input?.name);
             formData.append("age", input.age);
             formData.append("breedId", input.breedId);
             formData.append("gender", input.gender);
@@ -43,6 +43,8 @@ export default function CreateDogForm() {
             formData.append("profileImage", image);
 
             await createDog(formData);
+            setError({});
+            setInput(initial);
 
             toast.success("create successfully");
         } catch (err) {
@@ -71,6 +73,7 @@ export default function CreateDogForm() {
                 name="age"
                 text="Age"
                 errorMessage={error.age}
+                // value={input.age}
             >
                 <option value="PUPPY">Puppy</option>
                 <option value="ADULT">Adult</option>

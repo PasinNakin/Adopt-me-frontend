@@ -1,7 +1,5 @@
 import React from "react";
-import HeaderNav from "../layouts/HeaderNav";
 import CreateDogForm from "../features/dog/components/CreateDogForm";
-import RegisterForm from "../features/auth/components/RegisterForm";
 import PageLayout from "../layouts/PageLayout";
 import PicLayout from "../layouts/PicLayout";
 import DogContextProvider from "../features/dog/Context/DogContext";

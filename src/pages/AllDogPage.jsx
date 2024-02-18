@@ -1,10 +1,19 @@
 import React from "react";
-import HeaderNav from "../layouts/HeaderNav";
+import DogContextProvider from "../features/dog/Context/DogContext";
+import PageLayout from "../layouts/PageLayout";
+import SearchingForm from "../features/dog/components/SearchingForm";
+import DogContainer from "../features/dog/components/DogContainer";
+import HeaderHero from "../layouts/HeaderHero";
 
 export default function AllDogPage() {
     return (
-        <div>
-            <HeaderNav />
-        </div>
+        <DogContextProvider>
+            <PageLayout>
+                <HeaderHero headerText="Choose Your Lovely Child">
+                    <SearchingForm />
+                    <DogContainer />
+                </HeaderHero>
+            </PageLayout>
+        </DogContextProvider>
     );
 }
