@@ -3,8 +3,8 @@ import LoginForm from "../features/auth/components/LoginForm";
 export default function Modal({ title, onClose, formInput, headText }) {
     return (
         <>
-            <div className="fixed bg-[#2A2D3E] inset-0 opacity-70"></div>
-            <div className="fixed inset-0">
+            <div className="fixed bg-[#2A2D3E] inset-0 opacity-70 z-10"></div>
+            <div className="fixed inset-0 z-20">
                 <div className="flex items-center justify-center min-h-full">
                     <div className="bg-[#272D51] rounded-lg shadow-[0_0_15px_rgb(0,0,0,0.2)] w-[600px] h-[500px]">
                         <div className=" flex justify-between items-center py-6 px-14">

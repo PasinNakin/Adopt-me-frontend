@@ -1,9 +1,14 @@
-export default function DogCard({ src }) {
+export default function DogCard({ src, dogName }) {
     return (
-        <img
-            className="cursor-pointer min-w-[12vw] h-[45vh] mx-auto object-cover rounded-[10%] hover:scale-110"
-            src="https://images.pexels.com/photos/3687770/pexels-photo-3687770.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="dogPic"
-        />
+        <div className="relative hover:scale-110">
+            <img
+                className="cursor-pointer max-w-[14vw] h-[45vh] mx-auto object-cover rounded-[10%] "
+                src={src}
+                alt="dogPic"
+            />
+            <h1 className="absolute left-0 right-0 bottom-0 mx-auto w-40 h-10 font-bold text-white text-center text-[1.2rem]">
+                {dogName}
+            </h1>
+        </div>
     );
 }

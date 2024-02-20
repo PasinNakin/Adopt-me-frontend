@@ -16,6 +16,7 @@ export default function SelectOption({
                 className="select select-bordered bg-white text-black  text-[1.1rem] "
                 onChange={onChange}
                 name={name}
+                defaultValue="disable"
             >
                 <option value="disable" disabled selected>
                     --please select--

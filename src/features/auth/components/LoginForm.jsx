@@ -37,7 +37,7 @@ export default function LoginForm({ setOpen }) {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
     return (
-        <form className="text-center " onSubmit={handleFormSubmit}>
+        <form className="text-center z-10" onSubmit={handleFormSubmit}>
             <div className="flex flex-col items-center pb-8">
                 <Input
                     text="Email"

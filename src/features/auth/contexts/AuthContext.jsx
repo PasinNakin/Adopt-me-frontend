@@ -26,7 +26,6 @@ export default function AuthContextProvider({ children }) {
         clearToken();
     };
 
-    console.log(authUser);
     return (
         <AuthContext.Provider value={{ authUser, register, login, logout }}>
             {children}
