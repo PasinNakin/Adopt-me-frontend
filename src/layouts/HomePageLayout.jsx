@@ -1,7 +1,5 @@
 import React from "react";
-import DogCard from "../components/DogCard";
 import { useNavigate } from "react-router-dom";
-import DogContainer from "../features/dog/components/DogContainer";
 import ExampleDogContainer from "../features/dog/components/ExampleDogContainer";
 
 export default function HomePageLayout() {

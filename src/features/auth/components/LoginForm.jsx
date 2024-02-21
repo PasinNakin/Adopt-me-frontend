@@ -4,6 +4,7 @@ import Button from "../../../components/Button";
 import validateLogin from "../validations/validate-login";
 import useAuth from "../../../hooks/use-auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function LoginForm({ setOpen }) {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function LoginForm({ setOpen }) {
             await login(input);
             setOpen();
             navigate("/");
-            alert("login success");
+            toast.success("Login successfully");
         } catch (err) {
             console.log(err);
         }
@@ -37,7 +38,7 @@ export default function LoginForm({ setOpen }) {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
     return (
-        <form className="text-center z-10" onSubmit={handleFormSubmit}>
+        <form className="text-center pb-[30px]" onSubmit={handleFormSubmit}>
             <div className="flex flex-col items-center pb-8">
                 <Input
                     text="Email"

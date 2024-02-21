@@ -6,20 +6,25 @@ export const DogContext = createContext();
 
 export default function DogContextProvider({ children }) {
     const [breed, setBreed] = useState([]);
-    const [dog, setDog] = useState([]);
+    const [allDog, setAllDog] = useState([]);
+    const [dog, setDog] = useState({});
     const { dogId } = useParams();
+
+    // useEffect(() => {
+    //     dogApi
+    //         .getDogBreed()
+    //         .then((res) => setBreed(res.data))
+    //         .catch((err) => console.log(err));
+    // }, []);
 
     useEffect(() => {
         dogApi
             .getDogBreed()
             .then((res) => setBreed(res.data))
             .catch((err) => console.log(err));
-    }, []);
-
-    useEffect(() => {
         dogApi
             .getAllDog()
-            .then((res) => setDog(res.data))
+            .then((res) => setAllDog(res.data))
             .catch((err) => console.log(err));
     }, []);
 
@@ -27,11 +32,13 @@ export default function DogContextProvider({ children }) {
         const fetchProfile = async () => {
             try {
                 const res = await dogApi.getDogWithId(dogId);
+                setDog(res.data.dogWithId);
             } catch {
                 console.log(err);
             }
         };
-    }, []);
+        fetchProfile();
+    }, [dogId]);
 
     const createDog = async (formdata) => {
         console.log(formdata);
@@ -39,7 +46,9 @@ export default function DogContextProvider({ children }) {
     };
 
     return (
-        <DogContext.Provider value={{ breed, setBreed, createDog, dog }}>
+        <DogContext.Provider
+            value={{ breed, setBreed, createDog, allDog, dog }}
+        >
             {children}
         </DogContext.Provider>
     );

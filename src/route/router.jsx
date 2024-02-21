@@ -5,6 +5,7 @@ import DogProfile from "../pages/DogProfile";
 import AllDogPage from "../pages/AllDogPage";
 import RedirectIfAuthenticated from "../features/auth/components/RedirectIfAuthenticated";
 import CreateDogProfilePage from "../pages/CreateDogProfilePage";
+import ProtectRoute from "../features/auth/components/ProtectRoute";
 
 const router = createBrowserRouter([
     {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
         ),
     },
     {
-        path: "/dogprofile",
+        path: "/profile/:dogId",
         element: <DogProfile />,
     },
     {
@@ -29,7 +30,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/createdog",
-        element: <CreateDogProfilePage />,
+        element: (
+            <ProtectRoute>
+                <CreateDogProfilePage />
+            </ProtectRoute>
+        ),
     },
 ]);
 export default function Router() {

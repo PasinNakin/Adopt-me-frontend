@@ -9,10 +9,15 @@ import ProfileLogo from "../components/ProfileLogo";
 
 export default function HeaderNav() {
     const navigate = useNavigate();
-    // const { authUser } = useAuth();
+    const { authUser, logout } = useAuth();
 
     const [open, setOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
+
+    const handleLogOut = () => {
+        setToggle(false);
+        logout();
+    };
 
     return (
         <div>
@@ -38,17 +43,22 @@ export default function HeaderNav() {
                     </a>
                 </div>
 
-                {false ? (
-                    <div className="relative flex items-center gap-6">
-                        {true && (
+                {authUser ? (
+                    <div className=" flex items-center gap-6">
+                        {authUser?.role === "ADMIN" && (
                             <Button onClick={() => navigate("/createdog")}>
                                 Add dog
                             </Button>
                         )}
-                        <ProfileLogo
-                            setToggle={() => setToggle((prev) => !prev)}
-                        />
-                        <Dropdown toggle={toggle} />
+                        <div className="relative">
+                            <ProfileLogo
+                                setToggle={() => setToggle((prev) => !prev)}
+                            />
+                            <Dropdown
+                                toggle={toggle}
+                                handleLogOut={handleLogOut}
+                            />
+                        </div>
                     </div>
                 ) : (
                     <div className="mr-10 flex gap-3">
@@ -61,10 +71,11 @@ export default function HeaderNav() {
             </div>
             {open && (
                 <Modal
-                    formInput={<LoginForm setOpen={() => setOpen(false)} />}
                     headText="Welcome Back Hooman"
                     onClose={() => setOpen(false)}
-                />
+                >
+                    <LoginForm setOpen={() => setOpen(false)} />
+                </Modal>
             )}
         </div>
     );

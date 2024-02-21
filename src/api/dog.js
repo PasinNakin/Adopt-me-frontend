@@ -6,3 +6,7 @@ export const createDog = (formData) =>
 export const getDogBreed = () => axios.get("/dog/getDogBreed");
 export const getAllDog = () => axios.get("/dog/allDog");
 export const getDogWithId = (dogId) => axios.get(`/dog/profile/${dogId}`);
+
+export const updateDogById = (data, dogId) =>
+    axios.get(`/dog/profile/${dogId}`, data);
+export const deleteDog = (dogId) => axios.get(`/dog/deleteDog/${dogId}`);

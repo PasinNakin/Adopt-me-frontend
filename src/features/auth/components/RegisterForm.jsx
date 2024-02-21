@@ -4,7 +4,6 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import validateRegister from "../validations/validate-register";
 import useAuth from "../../../hooks/use-auth";
-import { Navigate } from "react-router-dom";
 
 const initial = {
     email: "",
@@ -27,10 +26,8 @@ export default function RegisterForm() {
             if (validateError) {
                 return setError(validateError);
             }
-            // console.log("before");
             await register(input);
-            // console.log("after")
-            alert("register success");
+            toast.success("create successfully");
         } catch (err) {
             if (err.response?.data.message === "email has already in use") {
                 setError({ email: "already in use", mobile: "alredy in use" });

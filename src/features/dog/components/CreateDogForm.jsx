@@ -39,7 +39,6 @@ export default function CreateDogForm() {
             formData.append("breedId", input.breedId);
             formData.append("gender", input.gender);
             formData.append("description", input.description);
-
             formData.append("profileImage", image);
 
             await createDog(formData);
@@ -55,7 +54,7 @@ export default function CreateDogForm() {
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-center items-center "
+            className="flex flex-col flex-1 justify-center items-center pb-8"
         >
             <h1 className="text-[3rem] font-bold pt-20 text-white ">
                 Create Dog Profile
