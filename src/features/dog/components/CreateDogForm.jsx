@@ -46,6 +46,7 @@ export default function CreateDogForm() {
             setInput(initial);
 
             toast.success("create successfully");
+            window.location.reload();
         } catch (err) {
             toast.error(err.response?.data.message);
         }
@@ -54,7 +55,7 @@ export default function CreateDogForm() {
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-center items-center pb-8"
+            className="flex flex-col flex-1 justify-center items-center pb-"
         >
             <h1 className="text-[3rem] font-bold pt-20 text-white ">
                 Create Dog Profile
@@ -72,7 +73,7 @@ export default function CreateDogForm() {
                 name="age"
                 text="Age"
                 errorMessage={error.age}
-                // value={input.age}
+                value={input.age}
             >
                 <option value="PUPPY">Puppy</option>
                 <option value="ADULT">Adult</option>

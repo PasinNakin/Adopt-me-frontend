@@ -19,7 +19,7 @@ export default function LoginForm({ setOpen }) {
     const handleFormSubmit = async (e) => {
         try {
             e.preventDefault();
-            console.log("test");
+
             const validationError = validateLogin(input);
             if (validationError) {
                 console.log("test if validationError", validationError);

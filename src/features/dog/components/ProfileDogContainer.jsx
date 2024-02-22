@@ -5,29 +5,50 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/use-auth";
 import Modal from "../../../components/Modal";
 import EditDogForm from "./EditDogForm";
-
+import useAdopt from "../../../hooks/use-adopt";
+// import { createAdopt } from "../../../api/adopt";
 export default function ProfileDogContainer() {
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
 
-    const { dog } = useDog();
+    const { dog, deleteDog } = useDog();
+    const { createAdopt } = useAdopt();
     const { authUser } = useAuth();
     const navigate = useNavigate();
 
+    const handleDelete = async () => {
+        await deleteDog(dog.id);
+        navigate("/allDog");
+    };
+    const handleAdoptClick = async (id) => {
+        // console.log(id);
+        try {
+            const data = {
+                dogId: id,
+            };
+            await createAdopt(data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <div>
-            <div className="max-h-[60%] max-w-[45%] mx-auto relative">
+            <div className="max-w-[40%]  mx-auto relative">
                 <img
-                    className=" object-cover  rounded-[10%] mb-10"
+                    className=" object-cover  rounded-[10%] mx-auto mb-10 h-[45vh] w-[30vw]"
                     src={dog?.profileImage}
                     alt="dogImage"
                 />
                 {authUser?.role === "ADMIN" && (
-                    <div className="flex flex-col absolute top-8 -right-40 gap-6">
+                    <div className="flex flex-col absolute top-20 -right-40 gap-6">
                         <Button onClick={() => setOpen(true)}>
                             Edit Profile
                         </Button>
-                        <Button onClick={() => setOpenDelete(true)}>
+                        <Button
+                            colorB="red"
+                            onClick={() => setOpenDelete(true)}
+                        >
                             delete Profile
                         </Button>
                     </div>
@@ -40,7 +61,7 @@ export default function ProfileDogContainer() {
             <div className="flex justify-between gap-4 bg-[#1D2144] p-10 mb-10 text-center rounded-3xl text-lg text-white">
                 <div className="flex flex-col gap-4 mx-auto bg-[#272D51] w-[40%] p-4 pb-10 rounded-3xl items-center ">
                     <h1 className="text-[2rem] p-4 font-medium">description</h1>
-                    <div class=" border-b-2 border-orange-500 w-[80%] rounded-xl mb-4 "></div>
+                    <div className=" border-b-2 border-orange-500 w-[80%] rounded-xl mb-4 "></div>
                     {dog?.description ? (
                         <span className="w-[80%] ">{dog?.description}</span>
                     ) : (
@@ -53,12 +74,14 @@ export default function ProfileDogContainer() {
 
                 <div className="flex flex-col gap-4 mx-auto bg-[#272D51] w-[40%] p-4 pb-10 rounded-3xl items-center ">
                     <div className="text-[2rem] p-4 font-medium">Stats</div>
-                    <div class=" border-b-2 border-orange-500 w-[80%] rounded-xl mb-4"></div>
+                    <div className=" border-b-2 border-orange-500 w-[80%] rounded-xl mb-4"></div>
                     <span>Name : {dog?.name}</span>
                     <span>Age : {dog.age?.toLowerCase()}</span>
                     <span>Gender : {dog.gender?.toLowerCase()}</span>
                     <span>Breed : {dog.breed?.dogBreed}</span>
-                    <Button>Status</Button>
+                    <Button onClick={() => handleAdoptClick(dog.id)}>
+                        Need Adopt
+                    </Button>
                 </div>
             </div>
 
@@ -80,7 +103,9 @@ export default function ProfileDogContainer() {
                     onClose={() => setOpenDelete(false)}
                 >
                     <div className="flex flex-col items-center gap-10 pt-10">
-                        <Button width={40}>Delete</Button>
+                        <Button width={40} onClick={handleDelete}>
+                            Delete
+                        </Button>
                         <Button width={40} onClick={() => setOpenDelete(false)}>
                             cancel
                         </Button>

@@ -15,7 +15,6 @@ export default function AuthContextProvider({ children }) {
             authApi
                 .fetchMe()
                 .then((res) => {
-                    console.log(res);
                     setAuthUser(res.data.user);
                 })
                 .catch((err) => {
