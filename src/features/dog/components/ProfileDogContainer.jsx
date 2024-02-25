@@ -6,13 +6,15 @@ import useAuth from "../../../hooks/use-auth";
 import Modal from "../../../components/Modal";
 import EditDogForm from "./EditDogForm";
 import useAdopt from "../../../hooks/use-adopt";
-// import { createAdopt } from "../../../api/adopt";
+import { toast } from "react-toastify";
+
 export default function ProfileDogContainer() {
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [isCancel, setIsCancel] = useState(true);
 
-    const { dog, deleteDog } = useDog();
-    const { createAdopt } = useAdopt();
+    const { dog, deleteDog, relation, approveDog } = useDog();
+    const { createAdopt, cancelAdopt } = useAdopt();
     const { authUser } = useAuth();
     const navigate = useNavigate();
 
@@ -20,16 +22,26 @@ export default function ProfileDogContainer() {
         await deleteDog(dog.id);
         navigate("/allDog");
     };
+
     const handleAdoptClick = async (id) => {
-        // console.log(id);
         try {
             const data = {
                 dogId: id,
             };
             await createAdopt(data);
+            window.location.reload(false);
         } catch (err) {
             console.log(err);
         }
+    };
+
+    const handleCancelAdopt = async () => {
+        await cancelAdopt(dog.id);
+        window.location.reload(false);
+    };
+    const handleApproveAdopt = async () => {
+        await approveDog(dog.id);
+        navigate("/allDog");
     };
 
     return (
@@ -79,9 +91,40 @@ export default function ProfileDogContainer() {
                     <span>Age : {dog.age?.toLowerCase()}</span>
                     <span>Gender : {dog.gender?.toLowerCase()}</span>
                     <span>Breed : {dog.breed?.dogBreed}</span>
-                    <Button onClick={() => handleAdoptClick(dog.id)}>
-                        Need Adopt
-                    </Button>
+
+                    {dog?.status === "AVAILABLE" &&
+                    authUser?.role === "USER" ? (
+                        <Button onClick={() => handleAdoptClick(dog.id)}>
+                            Need Adopt
+                        </Button>
+                    ) : (
+                        dog?.status === "PENDING" && (
+                            <div className="bg-slate-500 p-2 rounded-2xl">
+                                -Pending-
+                            </div>
+                        )
+                    )}
+
+                    {relation?.adopt?.length > 0 &&
+                        dog.status !== "ADOPTED" &&
+                        authUser?.id === relation?.adopt[0]?.userId &&
+                        isCancel && (
+                            <Button onClick={handleCancelAdopt}>
+                                Cancel Adopt
+                            </Button>
+                        )}
+
+                    {authUser?.role === "ADMIN" &&
+                        dog?.status === "PENDING" && (
+                            <div className="flex gap-5">
+                                <Button onClick={handleApproveAdopt}>
+                                    Approve
+                                </Button>
+                                <Button onClick={handleCancelAdopt}>
+                                    Disapprove
+                                </Button>
+                            </div>
+                        )}
                 </div>
             </div>
 

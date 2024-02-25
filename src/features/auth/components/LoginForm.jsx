@@ -30,7 +30,7 @@ export default function LoginForm({ setOpen }) {
             navigate("/");
             toast.success("Login successfully");
         } catch (err) {
-            console.log(err);
+            toast.error(err.response?.data.message);
         }
     };
 

@@ -12,29 +12,56 @@ export default function DogContextProvider({ children }) {
     const [dog, setDog] = useState({});
     const { dogId } = useParams();
     const [searchDog, setSearchDog] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [relation, setRelation] = useState({});
 
     useEffect(() => {
+        setLoading(true);
         dogApi
             .getDogBreed()
             .then((res) => setBreed(res.data))
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
         dogApi
             .getAllDog()
-            .then((res) => setAllDog(res.data))
-            .catch((err) => console.log(err));
+            .then((res) => {
+                setAllDog(res.data);
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
     }, []);
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await dogApi.getDogWithId(dogId);
-                setDog(res.data.dogWithId);
+                if (dogId) {
+                    const res = await dogApi.getDogWithId(dogId);
+                    setDog(res.data.dogWithId);
+                }
             } catch (err) {
                 console.log(err);
             }
         };
         fetchProfile();
     }, [dogId]);
+
+    useEffect(() => {
+        const fetchRelation = async () => {
+            try {
+                if (dogId) {
+                    setLoading(true);
+                    const res = await dogApi.getRelation(dogId);
+                    // console.log(res.data);
+                    setRelation(res.data);
+                }
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchRelation();
+    }, []);
 
     const fetchSearch = async (queryData) => {
         try {
@@ -52,12 +79,17 @@ export default function DogContextProvider({ children }) {
 
     const updateDog = async (data, dogId) => {
         await dogApi.updateDogById(data, dogId);
-        toast.success("edit successfully");
+        toast.success("edit success");
     };
 
     const deleteDog = async (dogId) => {
         await dogApi.deleteDog(dogId);
-        toast.success("delete successfully");
+        toast.success("delete success");
+    };
+
+    const approveDog = async () => {
+        await dogApi.approveDogById(dogId);
+        toast.success("approve success");
     };
 
     return (
@@ -72,6 +104,9 @@ export default function DogContextProvider({ children }) {
                 deleteDog,
                 searchDog,
                 fetchSearch,
+                loading,
+                relation,
+                approveDog,
             }}
         >
             {children}

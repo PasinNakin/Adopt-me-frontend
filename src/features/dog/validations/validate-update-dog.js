@@ -35,8 +35,12 @@ const createDogSchema = Joi.object({
             "any.only": "Wrong type of Gender",
             "any.required": "Gender is required",
         }),
+    description: Joi.string().optional(),
 });
 
-const validateUpdateDog = (input) => validate(createDogSchema)(input);
+const validateUpdateDog = (input) => {
+    console.log(input);
+    validate(createDogSchema)(input);
+};
 
 export default validateUpdateDog;

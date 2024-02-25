@@ -17,6 +17,7 @@ export default function HeaderNav() {
     const handleLogOut = () => {
         setToggle(false);
         logout();
+        navigate("/");
     };
 
     return (
@@ -41,6 +42,15 @@ export default function HeaderNav() {
                     >
                         Adopt a dog
                     </a>
+
+                    {authUser?.role === "USER" && (
+                        <a
+                            className="cursor-pointer hover:scale-105"
+                            onClick={() => navigate("/myAdopt")}
+                        >
+                            Your Adopt
+                        </a>
+                    )}
                 </div>
 
                 {authUser ? (

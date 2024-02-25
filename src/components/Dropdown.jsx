@@ -11,7 +11,7 @@ export default function Dropdown({ toggle, handleLogOut }) {
                             Logout
                         </div>
                         <hr className="border-b-2" />
-                        <div className="cursor-pointer">Edit profile</div>
+                        {/* <div className="cursor-pointer">Edit profile</div> */}
                     </div>
                 </div>
             ) : null}

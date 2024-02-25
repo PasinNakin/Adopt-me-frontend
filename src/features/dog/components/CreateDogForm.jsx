@@ -6,6 +6,7 @@ import useDog from "../../../hooks/use-dog";
 import SelectOption from "../../../components/SelectOption";
 import validateCreateDog from "../validations/validation-create-dog";
 import { toast } from "react-toastify";
+import PicLayout from "../../../layouts/PicLayout";
 
 const initial = {
     name: "",
@@ -42,10 +43,9 @@ export default function CreateDogForm() {
             formData.append("profileImage", image);
 
             await createDog(formData);
+            toast.success("create successfully");
             setError({});
             setInput(initial);
-
-            toast.success("create successfully");
             window.location.reload();
         } catch (err) {
             toast.error(err.response?.data.message);
@@ -53,78 +53,86 @@ export default function CreateDogForm() {
     };
 
     return (
-        <form
-            onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-center items-center pb-"
-        >
-            <h1 className="text-[3rem] font-bold pt-20 text-white ">
-                Create Dog Profile
-            </h1>
-            <Input
-                name="name"
-                value={input.name}
-                text="name"
-                placeholder="dog name"
-                onChange={handleChangeInput}
-                errorMessage={error.name}
-            />
-            <SelectOption
-                onChange={handleChangeInput}
-                name="age"
-                text="Age"
-                errorMessage={error.age}
-                value={input.age}
+        <>
+            {image ? (
+                <PicLayout src={URL.createObjectURL(image)} />
+            ) : (
+                <PicLayout src="https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+            )}
+
+            <form
+                onSubmit={handleFormSubmit}
+                className="flex flex-col flex-1 justify-center items-center pb-"
             >
-                <option value="PUPPY">Puppy</option>
-                <option value="ADULT">Adult</option>
-                <option value="SENIOR">Senior</option>
-            </SelectOption>
+                <h1 className="text-[3rem] font-bold pt-20 text-white ">
+                    Create Dog Profile
+                </h1>
+                <Input
+                    name="name"
+                    value={input.name}
+                    text="name"
+                    placeholder="dog name"
+                    onChange={handleChangeInput}
+                    errorMessage={error.name}
+                />
+                <SelectOption
+                    onChange={handleChangeInput}
+                    name="age"
+                    text="Age"
+                    errorMessage={error.age}
+                    value={input.age}
+                >
+                    <option value="PUPPY">Puppy</option>
+                    <option value="ADULT">Adult</option>
+                    <option value="SENIOR">Senior</option>
+                </SelectOption>
 
-            <SelectOption
-                onChange={handleChangeInput}
-                name="breedId"
-                text="Breed"
-                errorMessage={error.breedId}
-            >
-                {breed.breed?.map((el) => (
-                    <option key={el.id} value={el.id}>
-                        {el.dogBreed}
-                    </option>
-                ))}
-            </SelectOption>
+                <SelectOption
+                    onChange={handleChangeInput}
+                    name="breedId"
+                    text="Breed"
+                    errorMessage={error.breedId}
+                >
+                    {breed.breed?.map((el) => (
+                        <option key={el.id} value={el.id}>
+                            {el.dogBreed}
+                        </option>
+                    ))}
+                </SelectOption>
 
-            <SelectOption
-                onChange={handleChangeInput}
-                name="gender"
-                text="Gender"
-                errorMessage={error.gender}
-            >
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-            </SelectOption>
+                <SelectOption
+                    onChange={handleChangeInput}
+                    name="gender"
+                    text="Gender"
+                    errorMessage={error.gender}
+                >
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                </SelectOption>
 
-            <Input
-                name="profileImage"
-                type="file"
-                value={input.profileImage}
-                text="Dog Image"
-                placeholder="Choose picture"
-                onChange={(e) => {
-                    setInput({ ...input, [e.target.name]: e.target.value });
-                    setImage(e.target.files[0]);
-                }}
-                errorMessage={error.profileImage}
-            />
-            <TextArea
-                name="description"
-                placeholder="text here....."
-                onChange={handleChangeInput}
-                value={input.description}
-            />
+                <Input
+                    name="profileImage"
+                    type="file"
+                    value={input.profileImage}
+                    text="Dog Image"
+                    placeholder="Choose picture"
+                    onChange={(e) => {
+                        setInput({ ...input, [e.target.name]: e.target.value });
+                        setImage(e.target.files[0]);
+                    }}
+                    errorMessage={error.profileImage}
+                />
+                <TextArea
+                    name="description"
+                    placeholder="text here....."
+                    onChange={handleChangeInput}
+                    value={input.description}
+                />
 
-            <div className="pt-6">
-                <Button>submit</Button>
-            </div>
-        </form>
+                <div className="pt-6 pb-6">
+                    <Button>submit</Button>
+                </div>
+            </form>
+        </>
     );
 }
