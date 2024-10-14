@@ -14,21 +14,41 @@ export default function DogContextProvider({ children }) {
     const [searchDog, setSearchDog] = useState([]);
     const [loading, setLoading] = useState(false);
     const [relation, setRelation] = useState({});
+    const [error, setError] = useState();
+    // const [resetSearch, setResetSearch] = useState([]);
+
+    const handleResetSearch = () => {
+        setSearchDog([]);
+        setError(null);
+    };
+
+    const fetchDogBreed = async () => {
+        try {
+            setLoading(true);
+            const response = await dogApi.getDogBreed();
+            setBreed(response.data);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchAllDog = async () => {
+        try {
+            setLoading(true);
+            const response = await dogApi.getAllDog();
+            setAllDog(response.data);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        setLoading(true);
-        dogApi
-            .getDogBreed()
-            .then((res) => setBreed(res.data))
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
-        dogApi
-            .getAllDog()
-            .then((res) => {
-                setAllDog(res.data);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
+        fetchDogBreed();
+        fetchAllDog();
     }, []);
 
     useEffect(() => {
@@ -67,8 +87,10 @@ export default function DogContextProvider({ children }) {
         try {
             const res = await dogApi.searchDog(queryData);
             setSearchDog(res.data);
+            setError(null);
         } catch (err) {
             console.log(err);
+            setError(err.response.data);
         }
     };
 
@@ -92,6 +114,8 @@ export default function DogContextProvider({ children }) {
         toast.success("approve success");
     };
 
+    console.log(error);
+
     return (
         <DogContext.Provider
             value={{
@@ -107,6 +131,8 @@ export default function DogContextProvider({ children }) {
                 loading,
                 relation,
                 approveDog,
+                error,
+                handleResetSearch,
             }}
         >
             {children}

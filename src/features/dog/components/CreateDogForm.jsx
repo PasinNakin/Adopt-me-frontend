@@ -22,6 +22,7 @@ export default function CreateDogForm() {
     const [error, setError] = useState({});
     const [image, setImage] = useState(null);
     const { breed, createDog } = useDog();
+    const [loading, setLoading] = useState(false);
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -29,6 +30,7 @@ export default function CreateDogForm() {
 
     const handleFormSubmit = async (e) => {
         try {
+            setLoading(true);
             e.preventDefault();
             const validateError = validateCreateDog(input);
             if (validateError) {
@@ -49,8 +51,18 @@ export default function CreateDogForm() {
             window.location.reload();
         } catch (err) {
             toast.error(err.response?.data.message);
+        } finally {
+            setLoading(false);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center w-full h-dvh">
+                <span className="loading loading-spinner loading-lg "></span>
+            </div>
+        );
+    }
 
     return (
         <>

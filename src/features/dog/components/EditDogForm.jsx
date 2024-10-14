@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function EditDogForm({ onClose }) {
     const { breed, dog, updateDog } = useDog();
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState({});
     const [input, setInput] = useState({
         name: dog?.name,
@@ -33,6 +34,7 @@ export default function EditDogForm({ onClose }) {
 
     const handleFormSubmit = async (e) => {
         try {
+            setLoading(true);
             e.preventDefault();
             const validateError = validateUpdateDog(input);
             if (validateError) {
@@ -42,12 +44,22 @@ export default function EditDogForm({ onClose }) {
             navigate("/allDog");
         } catch (err) {
             toast.error(err.response?.data.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center w-full h-[35vh]">
+                <span className="loading loading-spinner loading-lg "></span>
+            </div>
+        );
+    }
 
     return (
         <form

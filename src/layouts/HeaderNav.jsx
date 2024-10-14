@@ -22,7 +22,7 @@ export default function HeaderNav() {
 
     return (
         <div>
-            <div className="bg-[#D8E3F4] h-[5rem]  fixed top-10 right-[10%] left-[10%]  rounded-[50px] flex justify-between items-center shadow-xl z-10">
+            <div className="bg-[#D8E3F4] h-[5rem] absolute top-10 right-[10%] left-[10%]  rounded-[50px] flex justify-between items-center shadow-xl z-10">
                 <div className="flex gap-6 ml-6 justify-between items-center text-black font-bold text-lg">
                     <img
                         className="size-16"

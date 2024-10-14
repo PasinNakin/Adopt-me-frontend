@@ -13,6 +13,7 @@ export default function LoginForm({ setOpen }) {
         password: "",
     });
     const [error, setError] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const { login } = useAuth();
 
@@ -25,18 +26,30 @@ export default function LoginForm({ setOpen }) {
                 console.log("test if validationError", validationError);
                 return setError(validationError);
             }
+            setLoading(true);
             await login(input);
             setOpen();
             navigate("/");
             toast.success("Login successfully");
         } catch (err) {
             toast.error(err.response?.data.message);
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center w-full h-[35vh]">
+                <span className="loading loading-spinner loading-lg "></span>
+            </div>
+        );
+    }
+
     return (
         <form className="text-center pb-[30px]" onSubmit={handleFormSubmit}>
             <div className="flex flex-col items-center pb-8">

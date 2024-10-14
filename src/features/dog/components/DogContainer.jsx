@@ -3,27 +3,55 @@ import DogCard from "../../../components/DogCard";
 import useDog from "../../../hooks/use-dog";
 
 export default function DogContainer() {
-    const { allDog, searchDog } = useDog();
+    const { allDog, searchDog, loading, error } = useDog();
+
+    if (loading) {
+        return (
+            <div className=" flex items-center justify-center w-full h-[50vh] bg-[#1D2144] rounded-badge ">
+                <span className="loading loading-spinner loading-lg "></span>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="container  grid  gap-y-10 min-h-dvh p-16 bg-[#1D2144]  rounded-[8%]  ">
+                <span className="text-red-500 text-center w-full">
+                    {error.message}
+                </span>
+            </div>
+        );
+    }
+
+    const filterSearchDogs = searchDog.filter((el) => el.status !== "ADOPTED"); //fix null container when all searchDog=ADOPTED
+    // console.log(` filterSearchDogs =${filterSearchDogs}`);
+    console.log(searchDog.length);
+    if (searchDog.length !== 0) {
+        if (filterSearchDogs.length === 0) {
+            return (
+                <div className="container  grid  gap-y-10 min-h-dvh p-16 bg-[#1D2144]  rounded-[8%]  ">
+                    <span className="text-red-500 text-center w-full">
+                        Your search not found
+                    </span>
+                </div>
+            );
+        }
+    }
 
     return (
-        <div className="container  grid grid-cols-4 gap-y-10 min-h-screen p-16 bg-[#1D2144]  rounded-[8%]  ">
+        <div className="container  grid grid-cols-4 gap-y-10 min-h-screen p-16 bg-[#1D2144]  rounded-badge ">
             {searchDog.length !== 0
-                ? searchDog?.map((el) => {
-                      if (el.status === "ADOPTED") {
-                          return null;
-                      }
+                ? filterSearchDogs?.map((el) => {
                       if (el.status === "PENDING") {
                           return (
-                              <>
-                                  <DogCard
-                                      status="pending"
-                                      color="bg-orange-400"
-                                      key={el.id}
-                                      src={el.profileImage}
-                                      dogId={el.id}
-                                      dogName={el.name}
-                                  />
-                              </>
+                              <DogCard
+                                  status="pending"
+                                  color="bg-orange-400"
+                                  key={el.id}
+                                  src={el.profileImage}
+                                  dogId={el.id}
+                                  dogName={el.name}
+                              />
                           );
                       }
                       return (
@@ -41,16 +69,14 @@ export default function DogContainer() {
                       }
                       if (el.status === "PENDING") {
                           return (
-                              <>
-                                  <DogCard
-                                      status="pending"
-                                      color="bg-orange-400"
-                                      key={el.id}
-                                      src={el.profileImage}
-                                      dogId={el.id}
-                                      dogName={el.name}
-                                  />
-                              </>
+                              <DogCard
+                                  status="pending"
+                                  color="bg-orange-400"
+                                  key={el.id}
+                                  src={el.profileImage}
+                                  dogId={el.id}
+                                  dogName={el.name}
+                              />
                           );
                       }
                       return (

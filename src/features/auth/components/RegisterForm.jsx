@@ -16,11 +16,13 @@ const initial = {
 export default function RegisterForm() {
     const [input, setInput] = useState(initial);
     const [error, setError] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const { register } = useAuth();
 
     const handleFormSubmit = async (e) => {
         try {
+            setLoading(true);
             e.preventDefault();
             const validateError = validateRegister(input);
             if (validateError) {
@@ -32,6 +34,8 @@ export default function RegisterForm() {
             if (err.response?.data.message === "email has already in use") {
                 setError({ email: "already in use", mobile: "alredy in use" });
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -39,10 +43,18 @@ export default function RegisterForm() {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center w-full h-dvh">
+                <span className="loading loading-spinner loading-lg "></span>
+            </div>
+        );
+    }
+
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-center items-center "
+            className="flex flex-col flex-1 justify-center items-center pb-5"
         >
             <h1 className="text-[3rem] font-bold pt-20 text-white ">
                 Join Adopt Me HOOMAN

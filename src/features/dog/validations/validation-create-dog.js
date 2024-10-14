@@ -41,7 +41,7 @@ const createDogSchema = Joi.object({
         "any.required": "Image is required",
     }),
 
-    description: Joi.string().optional(),
+    description: Joi.string().allow(""),
 });
 
 const validateCreateDog = (input) => validate(createDogSchema)(input);
