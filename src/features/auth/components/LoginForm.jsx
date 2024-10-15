@@ -69,7 +69,7 @@ export default function LoginForm({ setOpen }) {
                     errorMessage={error.password}
                 />
             </div>
-            <Button>Login</Button>
+            <Button type="submit">Login</Button>
         </form>
     );
 }

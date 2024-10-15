@@ -5,12 +5,14 @@ import useDog from "../../../hooks/use-dog";
 import { toast } from "react-toastify";
 
 export default function SearchingForm() {
-    const { breed, fetchSearch, handleResetSearch } = useDog();
-    const [searching, setSearching] = useState({
+    const initial = {
         age: "",
         gender: "",
         breedId: "",
-    });
+    };
+
+    const { breed, fetchSearch, handleResetSearch } = useDog();
+    const [searching, setSearching] = useState(initial);
 
     const handleChangeInput = (e) => {
         setSearching({ ...searching, [e.target.name]: e.target.value });
@@ -24,14 +26,9 @@ export default function SearchingForm() {
     };
 
     const handleReset = () => {
-        setSearching({
-            age: "",
-            gender: "",
-            breedId: "",
-        });
+        setSearching(initial);
         handleResetSearch();
     };
-    console.log(searching);
 
     return (
         <>

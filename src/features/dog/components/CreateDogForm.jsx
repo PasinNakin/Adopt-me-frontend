@@ -22,6 +22,8 @@ export default function CreateDogForm() {
     const [error, setError] = useState({});
     const [image, setImage] = useState(null);
     const { breed, createDog } = useDog();
+
+    console.log(input);
     const [loading, setLoading] = useState(false);
 
     const handleChangeInput = (e) => {
@@ -104,6 +106,7 @@ export default function CreateDogForm() {
                     name="breedId"
                     text="Breed"
                     errorMessage={error.breedId}
+                    value={input.breedId}
                 >
                     {breed.breed?.map((el) => (
                         <option key={el.id} value={el.id}>
@@ -117,6 +120,7 @@ export default function CreateDogForm() {
                     name="gender"
                     text="Gender"
                     errorMessage={error.gender}
+                    value={input.gender}
                 >
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
@@ -142,7 +146,7 @@ export default function CreateDogForm() {
                 />
 
                 <div className="pt-6 pb-6">
-                    <Button>submit</Button>
+                    <Button type="submit">submit</Button>
                 </div>
             </form>
         </>

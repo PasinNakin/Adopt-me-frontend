@@ -153,7 +153,7 @@ export default function EditDogForm({ onClose }) {
             />
 
             <div className="flex gap-4 pt-6">
-                <Button>submit</Button>
+                <Button type="submit">submit</Button>
                 <Button onClick={onClose}>cancel</Button>
             </div>
         </form>

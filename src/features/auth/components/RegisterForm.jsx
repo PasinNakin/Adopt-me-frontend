@@ -110,7 +110,7 @@ export default function RegisterForm() {
                 errorMessage={error.mobile}
             />
             <div className="pt-6">
-                <Button>submit</Button>
+                <Button type="submit">submit</Button>
             </div>
         </form>
     );

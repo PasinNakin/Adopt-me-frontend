@@ -15,7 +15,7 @@ export default function DogContainer() {
 
     if (error) {
         return (
-            <div className="container  grid  gap-y-10 min-h-dvh p-16 bg-[#1D2144]  rounded-[8%]  ">
+            <div className="container  grid  gap-y-10 min-h-dvh p-16 bg-[#1D2144]  rounded-badge  ">
                 <span className="text-red-500 text-center w-full">
                     {error.message}
                 </span>
@@ -24,14 +24,14 @@ export default function DogContainer() {
     }
 
     const filterSearchDogs = searchDog.filter((el) => el.status !== "ADOPTED"); //fix null container when all searchDog=ADOPTED
-    // console.log(` filterSearchDogs =${filterSearchDogs}`);
+
     console.log(searchDog.length);
     if (searchDog.length !== 0) {
         if (filterSearchDogs.length === 0) {
             return (
-                <div className="container  grid  gap-y-10 min-h-dvh p-16 bg-[#1D2144]  rounded-[8%]  ">
+                <div className="container  grid  gap-y-10 min-h-dvh p-16 bg-[#1D2144]  rounded-badge  ">
                     <span className="text-red-500 text-center w-full">
-                        Your search not found
+                        Your search not found.
                     </span>
                 </div>
             );
