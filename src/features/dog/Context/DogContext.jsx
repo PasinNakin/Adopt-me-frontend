@@ -15,7 +15,8 @@ export default function DogContextProvider({ children }) {
     const [loading, setLoading] = useState(false);
     const [relation, setRelation] = useState({});
     const [error, setError] = useState();
-    // const [resetSearch, setResetSearch] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [dogCardPerPage] = useState(8);
 
     const handleResetSearch = () => {
         setSearchDog([]);
@@ -114,7 +115,25 @@ export default function DogContextProvider({ children }) {
         toast.success("approve success");
     };
 
-    console.log(error);
+    const indexOfLastDogCard = currentPage * dogCardPerPage;
+    const indexOfFirstDogCard = indexOfLastDogCard - dogCardPerPage;
+
+    const filterDogs = allDog.allDogWithBreed?.filter(
+        (el) => el.status !== "ADOPTED"
+    );
+
+    const currentDogCard = filterDogs?.slice(
+        indexOfFirstDogCard,
+        indexOfLastDogCard
+    );
+
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(filterDogs?.length / dogCardPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    const paginate = (page) => setCurrentPage(page);
 
     return (
         <DogContext.Provider
@@ -133,6 +152,10 @@ export default function DogContextProvider({ children }) {
                 approveDog,
                 error,
                 handleResetSearch,
+                currentDogCard,
+                paginate,
+                pageNumbers,
+                currentPage,
             }}
         >
             {children}

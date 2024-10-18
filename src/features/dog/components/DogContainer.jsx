@@ -1,9 +1,10 @@
 import React from "react";
 import DogCard from "../../../components/DogCard";
 import useDog from "../../../hooks/use-dog";
+import Pagination from "../../../components/Pagination";
 
 export default function DogContainer() {
-    const { allDog, searchDog, loading, error } = useDog();
+    const { searchDog, loading, error, currentDogCard } = useDog();
 
     if (loading) {
         return (
@@ -25,7 +26,6 @@ export default function DogContainer() {
 
     const filterSearchDogs = searchDog.filter((el) => el.status !== "ADOPTED"); //fix null container when all searchDog=ADOPTED
 
-    console.log(searchDog.length);
     if (searchDog.length !== 0) {
         if (filterSearchDogs.length === 0) {
             return (
@@ -39,55 +39,55 @@ export default function DogContainer() {
     }
 
     return (
-        <div className="container  grid grid-cols-4 gap-y-10 min-h-screen p-16 bg-[#1D2144]  rounded-badge ">
-            {searchDog.length !== 0
-                ? filterSearchDogs?.map((el) => {
-                      if (el.status === "PENDING") {
+        <div className="flex flex-col gap-5">
+            <div className="container  grid grid-cols-4 gap-y-10 min-h-screen p-16 bg-[#1D2144]  rounded-badge ">
+                {searchDog.length !== 0
+                    ? filterSearchDogs?.map((el) => {
+                          if (el.status === "PENDING") {
+                              return (
+                                  <DogCard
+                                      status="pending"
+                                      color="bg-orange-400"
+                                      key={el.id}
+                                      src={el.profileImage}
+                                      dogId={el.id}
+                                      dogName={el.name}
+                                  />
+                              );
+                          }
                           return (
                               <DogCard
-                                  status="pending"
-                                  color="bg-orange-400"
                                   key={el.id}
                                   src={el.profileImage}
                                   dogId={el.id}
                                   dogName={el.name}
                               />
                           );
-                      }
-                      return (
-                          <DogCard
-                              key={el.id}
-                              src={el.profileImage}
-                              dogId={el.id}
-                              dogName={el.name}
-                          />
-                      );
-                  })
-                : allDog.allDogWithBreed?.map((el) => {
-                      if (el.status === "ADOPTED") {
-                          return null;
-                      }
-                      if (el.status === "PENDING") {
+                      })
+                    : currentDogCard?.map((el) => {
+                          if (el.status === "PENDING") {
+                              return (
+                                  <DogCard
+                                      status="pending"
+                                      color="bg-orange-400"
+                                      key={el.id}
+                                      src={el.profileImage}
+                                      dogId={el.id}
+                                      dogName={el.name}
+                                  />
+                              );
+                          }
                           return (
                               <DogCard
-                                  status="pending"
-                                  color="bg-orange-400"
                                   key={el.id}
                                   src={el.profileImage}
                                   dogId={el.id}
                                   dogName={el.name}
                               />
                           );
-                      }
-                      return (
-                          <DogCard
-                              key={el.id}
-                              src={el.profileImage}
-                              dogId={el.id}
-                              dogName={el.name}
-                          />
-                      );
-                  })}
+                      })}
+            </div>
+            {filterSearchDogs.length === 0 && <Pagination />}
         </div>
     );
 }
