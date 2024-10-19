@@ -19,6 +19,7 @@ export default function HeaderNav() {
         logout();
         navigate("/");
     };
+    const buttonLinkCss = `cursor-pointer hover:scale-105 ease-in duration-100`;
 
     return (
         <div>
@@ -30,22 +31,28 @@ export default function HeaderNav() {
                         alt="LOGOHOME.png"
                         border="0"
                     />
-                    <a
-                        className="cursor-pointer hover:scale-105"
-                        onClick={() => navigate("/")}
-                    >
+                    <a className={buttonLinkCss} onClick={() => navigate("/")}>
                         Home
                     </a>
                     <a
-                        className="cursor-pointer hover:scale-105"
+                        className={buttonLinkCss}
                         onClick={() => navigate("/alldog")}
                     >
                         Adopt a dog
                     </a>
 
+                    {authUser?.role === "ADMIN" && (
+                        <a
+                            className={buttonLinkCss}
+                            onClick={() => navigate("/adopted")}
+                        >
+                            Adopted
+                        </a>
+                    )}
+
                     {authUser?.role === "USER" && (
                         <a
-                            className="cursor-pointer hover:scale-105"
+                            className={buttonLinkCss}
                             onClick={() => navigate("/myAdopt")}
                         >
                             Your Adopt

@@ -7,6 +7,7 @@ import RedirectIfAuthenticated from "../features/auth/components/RedirectIfAuthe
 import CreateDogProfilePage from "../pages/CreateDogProfilePage";
 import ProtectRoute from "../features/auth/components/ProtectRoute";
 import UserAdoptPage from "../pages/UserAdoptPage";
+import AdoptedPage from "../pages/AdoptedPage";
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
     {
         path: "/alldog",
         element: <AllDogPage />,
+    },
+    {
+        path: "/adopted",
+        element: <AdoptedPage />,
     },
     {
         path: "/myAdopt",

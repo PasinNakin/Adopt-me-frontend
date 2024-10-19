@@ -2,9 +2,7 @@ import React from "react";
 import useDog from "../hooks/use-dog";
 import { useState } from "react";
 
-function Pagination() {
-    const { pageNumbers, paginate, currentPage } = useDog();
-
+function Pagination({ pageNumbers, paginate, currentPage }) {
     const buttonNext = `btn text-white py-2 px-3 rounded-2xl bg-orange-500 hover:bg-orange-600 hover:text-white  border-none text-base`;
     const buttonPage = `btn text-black py-2 px-5 rounded-badge bg-white hover:bg-orange-500 hover:text-white active:bg-orange-600 focus:text-white focus:bg-orange-600  border-none text-base `;
     const activePageButton = `btn text-white py-2 px-5 rounded-badge bg-orange-600 hover:bg-orange-500  border-none text-base `;
