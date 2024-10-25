@@ -4,24 +4,38 @@ import { toast } from "react-toastify";
 
 import * as authApi from "../../../api/auth";
 import { clearToken, storeToken, getToken } from "../../../utils/local-storage";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
     const [authUser, setAuthUser] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (getToken()) {
-            authApi
-                .fetchMe()
-                .then((res) => {
+        const fetchUser = async () => {
+            const token = getToken();
+            if (token) {
+                try {
+                    const res = await authApi.fetchMe();
                     setAuthUser(res.data.user);
-                })
-                .catch((err) => {
+                } catch (err) {
                     toast.error(err.response?.data.message);
-                });
-        }
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+        // if (getToken()) {
+        //     authApi
+        //         .fetchMe()
+        //         .then((res) => {
+        //             setAuthUser(res.data.user);
+        //         })
+        //         .catch((err) => {
+        //             toast.error(err.response?.data.message);
+        //         });
+        // }
+        fetchUser();
     }, []);
 
     const register = async (user) => {
@@ -36,6 +50,10 @@ export default function AuthContextProvider({ children }) {
         storeToken(res.data.accessToken);
     };
 
+    const update = async (newData) => {
+        const res = await authApi.editUser(newData);
+    };
+
     const logout = () => {
         setAuthUser(null);
         clearToken();
@@ -43,7 +61,9 @@ export default function AuthContextProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ authUser, register, login, logout }}>
+        <AuthContext.Provider
+            value={{ authUser, register, login, logout, update }}
+        >
             {children}
         </AuthContext.Provider>
     );

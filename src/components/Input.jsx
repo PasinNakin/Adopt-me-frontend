@@ -7,6 +7,8 @@ export default function Input({
     name,
     errorMessage,
 }) {
+    // console.log(`this is error message : ${errorMessage}`);
+    // console.log(`this is value : ${name} :${value}`);
     return (
         <label className="form-control w-full max-w-md">
             <div className="label">

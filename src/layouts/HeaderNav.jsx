@@ -6,6 +6,8 @@ import LoginForm from "../features/auth/components/LoginForm";
 import useAuth from "../hooks/use-auth";
 import Dropdown from "../components/Dropdown";
 import ProfileLogo from "../components/ProfileLogo";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 export default function HeaderNav() {
     const navigate = useNavigate();
@@ -13,12 +15,33 @@ export default function HeaderNav() {
 
     const [open, setOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
+    const dropdownRef = useRef(null);
 
+    console.log(dropdownRef);
     const handleLogOut = () => {
         setToggle(false);
         logout();
         navigate("/");
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setToggle(false); // Close the dropdown if clicked outside
+            }
+        };
+
+        // Attach the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+
+        // Cleanup event listener on component unmount
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef]);
     const buttonLinkCss = `cursor-pointer hover:scale-105 ease-in duration-100`;
 
     return (
@@ -67,7 +90,7 @@ export default function HeaderNav() {
                                 Add dog
                             </Button>
                         )}
-                        <div className="relative">
+                        <div className="relative" ref={dropdownRef}>
                             <ProfileLogo
                                 setToggle={() => setToggle((prev) => !prev)}
                             />

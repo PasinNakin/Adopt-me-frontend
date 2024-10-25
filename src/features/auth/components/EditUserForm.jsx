@@ -2,47 +2,39 @@ import React from "react";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { useState } from "react";
-import validateRegister from "../validations/validate-register";
 import useAuth from "../../../hooks/use-auth";
-import { toast } from "react-toastify";
+import validateEditUser from "../validations/validate-update-user";
 
-const initial = {
-    email: "",
-    password: "",
-    confirmPassword: "",
-    firstName: "",
-    lastName: "",
-    mobile: "",
-};
+function EditUserForm() {
+    const initial = {
+        firstName: "",
+        lastName: "",
+        mobile: "",
+    };
 
-export default function RegisterForm() {
     const [input, setInput] = useState(initial);
     const [error, setError] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const { register } = useAuth();
+    const { update } = useAuth();
 
     const handleFormSubmit = async (e) => {
         try {
             setLoading(true);
             e.preventDefault();
-            const validateError = validateRegister(input);
-
+            const validateError = validateEditUser(input);
             if (validateError) {
                 return setError(validateError);
             }
-            await register(input);
-            toast.success("create successfully");
+            await update(input);
+            toast.success("update successfully");
         } catch (err) {
             if (
                 err.response?.data.message ===
                 "email or mobile number is already in use."
             ) {
-                setError({
-                    mobile: "Email or Mobile number is already in use.",
-                });
+                setError({ mobile: "alredy in use" });
             }
-            toast.error("Email or Mobile number is already in use.");
         } finally {
             setLoading(false);
         }
@@ -66,34 +58,9 @@ export default function RegisterForm() {
             className="flex flex-col flex-1 justify-center items-center pb-5"
         >
             <h1 className="text-[3rem] font-bold pt-20 text-white ">
-                Join Adopt Me HOOMAN
+                Edit your Profile
             </h1>
-            <Input
-                name="email"
-                value={input.email}
-                text="Email"
-                placeholder="email"
-                onChange={handleChangeInput}
-                errorMessage={error.email}
-            />
-            <Input
-                name="password"
-                value={input.password}
-                type="password"
-                text="Password"
-                placeholder="password"
-                onChange={handleChangeInput}
-                errorMessage={error.password}
-            />
-            <Input
-                name="confirmPassword"
-                value={input.confirmPassword}
-                type="password"
-                text="confirm password"
-                placeholder="confirm password"
-                onChange={handleChangeInput}
-                errorMessage={error.confirmPassword}
-            />
+
             <Input
                 name="firstName"
                 value={input.firstName}
@@ -124,3 +91,5 @@ export default function RegisterForm() {
         </form>
     );
 }
+
+export default EditUserForm;

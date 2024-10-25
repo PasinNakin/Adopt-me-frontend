@@ -8,6 +8,8 @@ import CreateDogProfilePage from "../pages/CreateDogProfilePage";
 import ProtectRoute from "../features/auth/components/ProtectRoute";
 import UserAdoptPage from "../pages/UserAdoptPage";
 import AdoptedPage from "../pages/AdoptedPage";
+import EditUserProfilePage from "../pages/EditUserProfilePage";
+import ProtectEditRoute from "../features/auth/components/ProtectEditRoute";
 
 const router = createBrowserRouter([
     {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
         element: <UserAdoptPage />,
     },
     {
+        path: "/editUser",
+        element: (
+            <ProtectEditRoute>
+                <EditUserProfilePage />
+            </ProtectEditRoute>
+        ),
+    },
+    {
         path: "/createdog",
         element: (
             <ProtectRoute>
@@ -46,6 +56,7 @@ const router = createBrowserRouter([
             </ProtectRoute>
         ),
     },
+    { path: "*", element: <HomePage /> },
 ]);
 export default function Router() {
     return <RouterProvider router={router} />;
