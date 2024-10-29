@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HeaderHero({ children, headerText }) {
     return (
-        <div className="flex flex-col mx-auto w-[80%] pt-[4%] pb-[4%]">
+        <div className="flex flex-col mx-auto w-[80%] pt-[6%] pb-[4%]">
             <div className="flex flex-col -center items-center ">
                 <h1 className="text-[3rem] font-bold  pb-5 text-white ">
                     {headerText}

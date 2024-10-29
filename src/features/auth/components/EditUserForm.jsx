@@ -4,22 +4,25 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import useAuth from "../../../hooks/use-auth";
 import validateEditUser from "../validations/validate-update-user";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EditUserForm() {
+    const { update, authUser } = useAuth();
     const initial = {
-        firstName: "",
-        lastName: "",
-        mobile: "",
+        firstName: authUser?.firstName,
+        lastName: authUser.lastName,
+        mobile: authUser.mobile,
     };
-
     const [input, setInput] = useState(initial);
     const [error, setError] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const { update } = useAuth();
+    const navigate = useNavigate();
 
     const handleFormSubmit = async (e) => {
         try {
+            setError({});
             setLoading(true);
             e.preventDefault();
             const validateError = validateEditUser(input);
@@ -27,13 +30,14 @@ function EditUserForm() {
                 return setError(validateError);
             }
             await update(input);
+            navigate("/");
             toast.success("update successfully");
         } catch (err) {
             if (
                 err.response?.data.message ===
-                "email or mobile number is already in use."
+                "This phone number is already in use."
             ) {
-                setError({ mobile: "alredy in use" });
+                setError({ mobile: "This phone number is already in use." });
             }
         } finally {
             setLoading(false);
@@ -46,7 +50,7 @@ function EditUserForm() {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center w-full h-dvh">
+            <div className="flex items-center justify-center w-full ">
                 <span className="loading loading-spinner loading-lg "></span>
             </div>
         );
@@ -55,12 +59,8 @@ function EditUserForm() {
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-center items-center pb-5"
+            className="flex flex-col flex-1 justify-start items-center py-4"
         >
-            <h1 className="text-[3rem] font-bold pt-20 text-white ">
-                Edit your Profile
-            </h1>
-
             <Input
                 name="firstName"
                 value={input.firstName}

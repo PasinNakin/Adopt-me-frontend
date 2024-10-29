@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
     const [authUser, setAuthUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -24,17 +24,9 @@ export default function AuthContextProvider({ children }) {
                     setLoading(false);
                 }
             }
+            setLoading(false);
         };
-        // if (getToken()) {
-        //     authApi
-        //         .fetchMe()
-        //         .then((res) => {
-        //             setAuthUser(res.data.user);
-        //         })
-        //         .catch((err) => {
-        //             toast.error(err.response?.data.message);
-        //         });
-        // }
+
         fetchUser();
     }, []);
 
@@ -51,7 +43,8 @@ export default function AuthContextProvider({ children }) {
     };
 
     const update = async (newData) => {
-        const res = await authApi.editUser(newData);
+        await authApi.editUser(newData);
+        console.log(newData);
     };
 
     const logout = () => {
@@ -62,7 +55,7 @@ export default function AuthContextProvider({ children }) {
 
     return (
         <AuthContext.Provider
-            value={{ authUser, register, login, logout, update }}
+            value={{ authUser, register, login, logout, update, loading }}
         >
             {children}
         </AuthContext.Provider>

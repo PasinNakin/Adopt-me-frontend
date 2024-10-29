@@ -1,12 +1,15 @@
 import React from "react";
 import PageLayout from "../layouts/PageLayout";
 import EditUserForm from "../features/auth/components/EditUserForm";
+import HeaderHero from "../layouts/HeaderHero";
 
 function EditUserProfilePage() {
     return (
         <>
             <PageLayout>
-                <EditUserForm />
+                <HeaderHero headerText="Change your profile">
+                    <EditUserForm />
+                </HeaderHero>
             </PageLayout>
         </>
     );
