@@ -10,11 +10,11 @@ import DogContextProvider from "./features/dog/Context/DogContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
     // <React.StrictMode>
     <AuthContextProvider>
-        <DogContextProvider>
-            {/* <Spinner> */}
-            <App />
-            {/* </Spinner> */}
-        </DogContextProvider>
+        {/* <DogContextProvider> */}
+        {/* <Spinner> */}
+        <App />
+        {/* </Spinner> */}
+        {/* </DogContextProvider> */}
     </AuthContextProvider>
     // </React.StrictMode>
 );

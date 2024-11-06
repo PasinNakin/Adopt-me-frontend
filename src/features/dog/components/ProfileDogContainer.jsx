@@ -19,29 +19,42 @@ export default function ProfileDogContainer() {
     const navigate = useNavigate();
 
     const handleDelete = async () => {
-        await deleteDog(dog.id);
-        navigate("/allDog");
+        try {
+            await deleteDog(dog.id);
+            navigate("/allDog");
+            toast.success("Dog profile deleted successfully.");
+        } catch (err) {
+            toast.error("Failed to delete the dog profile.");
+        }
     };
 
     const handleAdoptClick = async (id) => {
         try {
-            const data = {
-                dogId: id,
-            };
-            await createAdopt(data);
-            window.location.reload(false);
+            await createAdopt({ dog: id });
+            toast.success("Adoption request sent successfully.");
         } catch (err) {
             console.log(err);
+            toast.error("Failed to send adoption request.");
         }
     };
 
     const handleCancelAdopt = async () => {
-        await cancelAdopt(dog.id);
-        window.location.reload(false);
+        try {
+            await cancelAdopt(dog.id);
+            setIsCancel(false);
+            toast.success("Adoption request canceled.");
+        } catch (error) {
+            toast.error("Failed to cancel adoption request.");
+        }
     };
     const handleApproveAdopt = async () => {
-        await approveDog(dog.id);
-        navigate("/allDog");
+        try {
+            await approveDog(dog.id);
+            toast.success("Adoption approved.");
+            navigate("/allDog");
+        } catch (error) {
+            toast.error("Failed to approve adoption.");
+        }
     };
 
     return (

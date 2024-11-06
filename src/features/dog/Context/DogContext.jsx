@@ -9,15 +9,16 @@ export const DogContext = createContext();
 export default function DogContextProvider({ children }) {
     const [breed, setBreed] = useState([]);
     const [allDog, setAllDog] = useState([]);
+    const [dogInPage, setDogInPage] = useState({});
     const [dog, setDog] = useState({});
-    const { dogId } = useParams();
+    const { dogId, page } = useParams();
     const [searchDog, setSearchDog] = useState([]);
     const [loading, setLoading] = useState(false);
     const [relation, setRelation] = useState({});
     const [error, setError] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [dogCardPerPage] = useState(8);
-
+    console.log(allDog);
     const handleResetSearch = () => {
         setSearchDog([]);
         setError(null);
@@ -53,14 +54,30 @@ export default function DogContextProvider({ children }) {
     }, []);
 
     useEffect(() => {
+        const fetchDogPagination = async () => {
+            setLoading(true);
+            try {
+                const res = await dogApi.getDogPagination(page || 1);
+                setDogInPage(res);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchDogPagination();
+        console.log(page);
+    }, [page]);
+
+    useEffect(() => {
         const fetchProfile = async () => {
             try {
                 if (dogId) {
                     const res = await dogApi.getDogWithId(dogId);
                     setDog(res.data.dogWithId);
                 }
-            } catch (err) {
-                console.log(err);
+            } catch (error) {
+                console.log(error);
             }
         };
         fetchProfile();
@@ -102,17 +119,14 @@ export default function DogContextProvider({ children }) {
 
     const updateDog = async (data, dogId) => {
         await dogApi.updateDogById(data, dogId);
-        toast.success("edit success");
     };
 
     const deleteDog = async (dogId) => {
         await dogApi.deleteDog(dogId);
-        toast.success("delete success");
     };
 
     const approveDog = async () => {
         await dogApi.approveDogById(dogId);
-        toast.success("approve success");
     };
 
     const indexOfLastDogCard = currentPage * dogCardPerPage;
@@ -152,10 +166,11 @@ export default function DogContextProvider({ children }) {
                 approveDog,
                 error,
                 handleResetSearch,
-                currentDogCard,
                 paginate,
                 pageNumbers,
                 currentPage,
+                dogInPage,
+                setCurrentPage,
             }}
         >
             {children}

@@ -33,17 +33,18 @@ export default function EditDogForm({ onClose }) {
     ];
 
     const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
         try {
-            setLoading(true);
-            e.preventDefault();
             const validateError = validateUpdateDog(input);
             if (validateError) {
                 return setError(validateError);
             }
             await updateDog(input, dog.id);
             navigate("/allDog");
+            toast.success("Change is successfully");
         } catch (err) {
-            toast.error(err.response?.data.message);
+            toast.error(err.response?.data.message || "Somethong went wrong.");
         } finally {
             setLoading(false);
         }

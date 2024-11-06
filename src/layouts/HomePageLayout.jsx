@@ -19,7 +19,7 @@ export default function HomePageLayout() {
                         ที่ถูกทอดทิ้ง ให้เขาได้โอกาสมีชีวิตที่ดีอีกครั้ง
                     </div>
                     <button
-                        onClick={() => navigate("/allDog")}
+                        onClick={() => navigate("/allDog/1")}
                         className="btn btn-primary text-white w-fit "
                     >
                         ไปยังหน้ารับเลี้ยง

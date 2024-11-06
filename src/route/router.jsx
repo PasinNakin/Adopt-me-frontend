@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <DogProfile />,
     },
     {
-        path: "/alldog",
+        path: "/alldog/:page",
         element: <AllDogPage />,
     },
     {

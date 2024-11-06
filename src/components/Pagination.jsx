@@ -1,13 +1,13 @@
 import React from "react";
-import useDog from "../hooks/use-dog";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Pagination({ pageNumbers, paginate, currentPage }) {
     const buttonNext = `btn text-white py-2 px-3 rounded-2xl bg-orange-500 hover:bg-orange-600 hover:text-white  border-none text-base`;
     const buttonPage = `btn text-black py-2 px-5 rounded-badge bg-white hover:bg-orange-500 hover:text-white active:bg-orange-600 focus:text-white focus:bg-orange-600  border-none text-base `;
     const activePageButton = `btn text-white py-2 px-5 rounded-badge bg-orange-600 hover:bg-orange-500  border-none text-base `;
 
-    const [activePage, setActivePage] = useState(1);
+    const [activePage, setActivePage] = useState(currentPage || 1);
 
     const nextPage = () => {
         if (currentPage < pageNumbers.length) {
@@ -31,22 +31,23 @@ function Pagination({ pageNumbers, paginate, currentPage }) {
                 </button>
                 {pageNumbers.map((number) => (
                     <li key={number}>
-                        <button
-                            className={
-                                activePage === number
-                                    ? activePageButton
-                                    : buttonPage
-                            }
-                            onClick={() => {
-                                paginate(number);
-                                setActivePage(number);
-                            }}
-                        >
-                            {number}
-                        </button>
+                        <Link to={`/allDog/${number}`}>
+                            <button
+                                className={
+                                    activePage === number
+                                        ? activePageButton
+                                        : buttonPage
+                                }
+                                onClick={() => {
+                                    paginate(number);
+                                    setActivePage(number);
+                                }}
+                            >
+                                {number}
+                            </button>
+                        </Link>
                     </li>
                 ))}
-
                 <button className={buttonNext} onClick={() => nextPage()}>
                     Next
                 </button>

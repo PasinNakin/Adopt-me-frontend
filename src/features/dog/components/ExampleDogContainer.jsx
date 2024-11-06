@@ -4,8 +4,8 @@ import DogCard from "../../../components/DogCard";
 import Spinner from "../../../components/Spinner";
 
 export default function ExampleDogContainer() {
-    const { allDog, loading } = useDog();
-    const totalDog = allDog?.allDogWithBreed;
+    const { dogInPage, loading } = useDog();
+    const totalDog = dogInPage?.data;
 
     const availDog = totalDog?.filter((el) => el.status === "AVAILABLE");
 

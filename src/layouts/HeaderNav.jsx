@@ -8,16 +8,22 @@ import Dropdown from "../components/Dropdown";
 import ProfileLogo from "../components/ProfileLogo";
 import { useRef } from "react";
 import { useEffect } from "react";
+import useDog from "../hooks/use-dog";
 
 export default function HeaderNav() {
     const navigate = useNavigate();
     const { authUser, logout } = useAuth();
+    const { setCurrentPage, currentPage } = useDog();
 
     const [open, setOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const dropdownRef = useRef(null);
+    console.log(currentPage);
+    const handleResetPath = () => {
+        setCurrentPage(1);
+        navigate("/alldog/1");
+    };
 
-    console.log(dropdownRef);
     const handleLogOut = () => {
         setToggle(false);
         logout();
@@ -30,18 +36,17 @@ export default function HeaderNav() {
                 dropdownRef.current &&
                 !dropdownRef.current.contains(event.target)
             ) {
-                setToggle(false); // Close the dropdown if clicked outside
+                setToggle(false);
             }
         };
 
-        // Attach the event listener
         document.addEventListener("mousedown", handleClickOutside);
 
-        // Cleanup event listener on component unmount
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [dropdownRef]);
+
     const buttonLinkCss = `cursor-pointer hover:scale-105 ease-in duration-100`;
 
     return (
@@ -57,10 +62,7 @@ export default function HeaderNav() {
                     <a className={buttonLinkCss} onClick={() => navigate("/")}>
                         Home
                     </a>
-                    <a
-                        className={buttonLinkCss}
-                        onClick={() => navigate("/alldog")}
-                    >
+                    <a className={buttonLinkCss} onClick={handleResetPath}>
                         Adopt a dog
                     </a>
 
