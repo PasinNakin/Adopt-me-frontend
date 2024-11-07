@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import useDog from "../../../hooks/use-dog";
 import DogCard from "../../../components/DogCard";
-import Spinner from "../../../components/Spinner";
 
 export default function ExampleDogContainer() {
-    const { dogInPage, loading } = useDog();
-    const totalDog = dogInPage?.data;
+    const { allDog, loading } = useDog();
+    const totalDog = allDog?.allDogWithBreed;
 
     const availDog = totalDog?.filter((el) => el.status === "AVAILABLE");
 

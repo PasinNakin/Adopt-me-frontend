@@ -7,14 +7,14 @@ import AdoptContextProvider from "../features/adopt/adoptContext";
 
 export default function DogProfile() {
     return (
-        <DogContextProvider>
-            <AdoptContextProvider>
-                <PageLayout>
-                    <HeaderHero headerText="HEY ! PICKME UP">
-                        <ProfileDogContainer />
-                    </HeaderHero>
-                </PageLayout>
-            </AdoptContextProvider>
-        </DogContextProvider>
+        // <DogContextProvider>
+        <AdoptContextProvider>
+            <PageLayout>
+                <HeaderHero headerText="HEY ! PICKME UP">
+                    <ProfileDogContainer />
+                </HeaderHero>
+            </PageLayout>
+        </AdoptContextProvider>
+        // </DogContextProvider>
     );
 }

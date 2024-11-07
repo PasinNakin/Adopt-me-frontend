@@ -2,11 +2,12 @@ import { useState } from "react";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import TextArea from "../../../components/TextArea";
-import useDog from "../../../hooks/use-dog";
+import * as dogApi from "../../../api/dog";
 import SelectOption from "../../../components/SelectOption";
 import validateCreateDog from "../validations/validation-create-dog";
 import { toast } from "react-toastify";
 import PicLayout from "../../../layouts/PicLayout";
+import useBreed from "../../../hooks/use-breed";
 
 const initial = {
     name: "",
@@ -21,10 +22,15 @@ export default function CreateDogForm() {
     const [input, setInput] = useState(initial);
     const [error, setError] = useState({});
     const [image, setImage] = useState(null);
-    const { breed, createDog } = useDog();
+    const { breed } = useBreed();
 
     console.log(input);
     const [loading, setLoading] = useState(false);
+
+    // const createDog = async (formdata) => {
+    //     console.log(formdata);
+    //     await dogApi.createDog(formdata);
+    // };
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -46,7 +52,7 @@ export default function CreateDogForm() {
             formData.append("description", input.description);
             formData.append("profileImage", image);
 
-            await createDog(formData);
+            await dogApi.createDog(formData);
             toast.success("create successfully");
             setError({});
             setInput(initial);

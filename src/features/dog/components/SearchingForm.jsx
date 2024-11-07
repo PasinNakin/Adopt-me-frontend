@@ -3,6 +3,7 @@ import SelectOption from "../../../components/SelectOption";
 import Button from "../../../components/Button";
 import useDog from "../../../hooks/use-dog";
 import { toast } from "react-toastify";
+import useBreed from "../../../hooks/use-breed";
 
 export default function SearchingForm() {
     const initial = {
@@ -11,7 +12,8 @@ export default function SearchingForm() {
         breedId: "",
     };
 
-    const { breed, fetchSearch, handleResetSearch } = useDog();
+    const { fetchSearch, handleResetSearch } = useDog();
+    const { breed } = useBreed();
     const [searching, setSearching] = useState(initial);
 
     const handleChangeInput = (e) => {

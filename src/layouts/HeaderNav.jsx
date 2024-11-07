@@ -13,14 +13,14 @@ import useDog from "../hooks/use-dog";
 export default function HeaderNav() {
     const navigate = useNavigate();
     const { authUser, logout } = useAuth();
-    const { setCurrentPage, currentPage } = useDog();
+    // const { setCurrentPage, currentPage } = useDog();
 
     const [open, setOpen] = useState(false);
     const [toggle, setToggle] = useState(false);
     const dropdownRef = useRef(null);
-    console.log(currentPage);
+    // console.log(currentPage);
     const handleResetPath = () => {
-        setCurrentPage(1);
+        // setCurrentPage(1);
         navigate("/alldog/1");
     };
 

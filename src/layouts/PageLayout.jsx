@@ -1,14 +1,14 @@
 import React from "react";
 import HeaderNav from "./HeaderNav";
-import useDog from "../hooks/use-dog";
-import Spinner from "../components/Spinner";
+// import useDog from "../hooks/use-dog";
+// import Spinner from "../components/Spinner";
 
 export default function PageLayout({ children }) {
-    const { loading } = useDog();
+    // const { loading } = useDog();
 
-    {
-        loading && <Spinner />;
-    }
+    // {
+    //     loading && <Spinner />;
+    // }
     return (
         <div>
             <HeaderNav />

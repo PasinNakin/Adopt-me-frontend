@@ -14,7 +14,7 @@ export default function DogContainer() {
         dogInPage,
     } = useDog();
 
-    console.log(dogInPage);
+    // console.log(dogInPage);
 
     const NotFoundClass = `container grid min-h-dvh p-16 bg-[#1D2144] rounded-badge`;
 
@@ -76,7 +76,7 @@ export default function DogContainer() {
                               />
                           );
                       })
-                    : dogInPage.data?.map((el) => {
+                    : dogInPage.map((el) => {
                           if (el.status === "PENDING") {
                               return (
                                   <DogCard

@@ -22,7 +22,7 @@ function Pagination({ pageNumbers, paginate, currentPage }) {
             setActivePage(currentPage - 1);
         }
     };
-
+    //
     return (
         <div className="bg-orange-400 rounded-badge m-auto p-3 ">
             <ul className="flex justify-center items-center gap-2">

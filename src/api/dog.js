@@ -7,6 +7,7 @@ export const getDogBreed = () => axios.get("/dog/getDogBreed");
 export const getAllDog = () => axios.get("/dog/allDog");
 export const getDogWithId = (dogId) => axios.get(`/dog/profile/${dogId}`);
 export const getDogPagination = (page) => axios.get(`/dog/allDog/${page}`);
+export const getTotalPage = () => axios.get(`/dog/totalPage`);
 export const searchDog = (queryData) =>
     axios.get("/dog/search", { params: queryData });
 export const getRelation = (dogId) => axios.get(`dog/relationship/${dogId}`);
