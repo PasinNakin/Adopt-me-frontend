@@ -4,6 +4,7 @@ import Button from "../../../components/Button";
 import useDog from "../../../hooks/use-dog";
 import { toast } from "react-toastify";
 import useBreed from "../../../hooks/use-breed";
+import { AGE, GENDER } from "../../../utils/initialValues";
 
 export default function SearchingForm() {
     const initial = {
@@ -44,9 +45,13 @@ export default function SearchingForm() {
                     text="Age"
                     value={searching.age}
                 >
-                    <option value="PUPPY">Puppy</option>
-                    <option value="ADULT">Adult</option>
-                    <option value="SENIOR">Senior</option>
+                    {AGE.map((el) => {
+                        return (
+                            <option key={el.value} value={el.value}>
+                                {el.name}
+                            </option>
+                        );
+                    })}
                 </SelectOption>
 
                 <SelectOption
@@ -55,8 +60,13 @@ export default function SearchingForm() {
                     text="Gender"
                     value={searching.gender}
                 >
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    {GENDER.map((el) => {
+                        return (
+                            <option key={el.value} value={el.value}>
+                                {el.name}
+                            </option>
+                        );
+                    })}
                 </SelectOption>
 
                 <SelectOption

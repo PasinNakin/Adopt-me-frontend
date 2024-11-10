@@ -14,8 +14,6 @@ export default function DogContainer() {
         dogInPage,
     } = useDog();
 
-    // console.log(dogInPage);
-
     const NotFoundClass = `container grid min-h-dvh p-16 bg-[#1D2144] rounded-badge`;
 
     if (loading) {
@@ -36,39 +34,23 @@ export default function DogContainer() {
         );
     }
 
-    const filterSearchDogs = searchDog.filter((el) => el.status !== "ADOPTED"); //fix null container when all searchDog=ADOPTED
-
-    if (searchDog.length !== 0) {
-        if (filterSearchDogs.length === 0) {
-            return (
-                <div className={NotFoundClass}>
-                    <span className="text-red-500 text-center w-full">
-                        Your search not found.
-                    </span>
-                </div>
-            );
-        }
-    }
-
     return (
         <div className="flex flex-col gap-5">
             <div className="container grid grid-cols-4 gap-y-10 min-h-screen p-16 bg-[#1D2144] rounded-badge">
                 {searchDog.length !== 0
-                    ? filterSearchDogs?.map((el) => {
-                          if (el.status === "PENDING") {
-                              return (
-                                  <DogCard
-                                      status="pending"
-                                      color="bg-orange-400"
-                                      key={el.id}
-                                      src={el.profileImage}
-                                      dogId={el.id}
-                                      dogName={el.name}
-                                  />
-                              );
-                          }
+                    ? searchDog?.map((el) => {
                           return (
                               <DogCard
+                                  status={
+                                      el.status === "PENDING"
+                                          ? "Reserved"
+                                          : null
+                                  }
+                                  color={
+                                      el.status === "PENDING"
+                                          ? "bg-orange-400"
+                                          : null
+                                  }
                                   key={el.id}
                                   src={el.profileImage}
                                   dogId={el.id}
@@ -77,20 +59,18 @@ export default function DogContainer() {
                           );
                       })
                     : dogInPage.map((el) => {
-                          if (el.status === "PENDING") {
-                              return (
-                                  <DogCard
-                                      status="pending"
-                                      color="bg-orange-400"
-                                      key={el.id}
-                                      src={el.profileImage}
-                                      dogId={el.id}
-                                      dogName={el.name}
-                                  />
-                              );
-                          }
                           return (
                               <DogCard
+                                  status={
+                                      el.status === "PENDING"
+                                          ? "Reserved"
+                                          : null
+                                  }
+                                  color={
+                                      el.status === "PENDING"
+                                          ? "bg-orange-400"
+                                          : null
+                                  }
                                   key={el.id}
                                   src={el.profileImage}
                                   dogId={el.id}
@@ -99,7 +79,7 @@ export default function DogContainer() {
                           );
                       })}
             </div>
-            {filterSearchDogs.length === 0 && pageNumbers.length > 1 && (
+            {searchDog.length === 0 && pageNumbers.length > 1 && (
                 <Pagination
                     pageNumbers={pageNumbers}
                     paginate={paginate}

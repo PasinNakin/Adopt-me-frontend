@@ -1,12 +1,27 @@
 import React, { useState } from "react";
-import useDog from "../../../hooks/use-dog";
+// import useDog from "../../../hooks/use-dog";
 import DogCard from "../../../components/DogCard";
+import { useEffect } from "react";
+import * as dogApi from "../../../api/dog";
 
 export default function ExampleDogContainer() {
-    const { allDog, loading } = useDog();
-    const totalDog = allDog?.allDogWithBreed;
+    // const { allDog, loading } = useDog();
+    const [dogs, setDogs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const availDog = totalDog?.filter((el) => el.status === "AVAILABLE");
+    useEffect(() => {
+        const fetchExampleDog = async () => {
+            try {
+                const res = await dogApi.getExampleDog();
+                setDogs(res.data);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchExampleDog();
+    }, []);
 
     if (loading) {
         return (
@@ -18,7 +33,7 @@ export default function ExampleDogContainer() {
 
     return (
         <div className="container  grid grid-cols-4 gap-y-10  p-16 bg-[#1D2144]  rounded-badge ">
-            {availDog?.slice(0, 4).map((el) => (
+            {dogs?.slice(0, 4).map((el) => (
                 <DogCard
                     key={el.id}
                     src={el.profileImage}

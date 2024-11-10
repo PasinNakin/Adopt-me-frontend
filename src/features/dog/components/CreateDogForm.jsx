@@ -8,6 +8,7 @@ import validateCreateDog from "../validations/validation-create-dog";
 import { toast } from "react-toastify";
 import PicLayout from "../../../layouts/PicLayout";
 import useBreed from "../../../hooks/use-breed";
+import { AGE, GENDER } from "../../../utils/initialValues";
 
 const initial = {
     name: "",
@@ -23,14 +24,7 @@ export default function CreateDogForm() {
     const [error, setError] = useState({});
     const [image, setImage] = useState(null);
     const { breed } = useBreed();
-
-    console.log(input);
     const [loading, setLoading] = useState(false);
-
-    // const createDog = async (formdata) => {
-    //     console.log(formdata);
-    //     await dogApi.createDog(formdata);
-    // };
 
     const handleChangeInput = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
@@ -102,9 +96,13 @@ export default function CreateDogForm() {
                     errorMessage={error.age}
                     value={input.age}
                 >
-                    <option value="PUPPY">Puppy</option>
-                    <option value="ADULT">Adult</option>
-                    <option value="SENIOR">Senior</option>
+                    {AGE.map((el) => {
+                        return (
+                            <option key={el.value} value={el.value}>
+                                {el.name}
+                            </option>
+                        );
+                    })}
                 </SelectOption>
 
                 <SelectOption
@@ -128,8 +126,13 @@ export default function CreateDogForm() {
                     errorMessage={error.gender}
                     value={input.gender}
                 >
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
+                    {GENDER.map((el) => {
+                        return (
+                            <option key={el.value} value={el.value}>
+                                {el.name}
+                            </option>
+                        );
+                    })}
                 </SelectOption>
 
                 <Input

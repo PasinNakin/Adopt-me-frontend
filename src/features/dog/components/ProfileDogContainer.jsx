@@ -1,133 +1,29 @@
 import { useState } from "react";
-// import useDog from "../../../hooks/use-dog";
-import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../../hooks/use-auth";
+import { useParams } from "react-router-dom";
+import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
 import EditDogForm from "./EditDogForm";
-import useAdopt from "../../../hooks/use-adopt";
-import { toast } from "react-toastify";
-import * as dogApi from "../../../api/dog";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import useDogProfile from "../../../hooks/useDogProfile";
+import useAuth from "../../../hooks/use-auth";
 
 export default function ProfileDogContainer() {
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [isCancel, setIsCancel] = useState(true);
-    /////
-    const [dog, setDog] = useState({});
-    const [relation, setRelation] = useState({});
-    const [loading, setLoading] = useState(false);
     const { dogId } = useParams();
-    /////
-    // const { dog, deleteDog, relation, approveDog } = useDog();
-    const { createAdopt, cancelAdopt } = useAdopt();
     const { authUser } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                if (dogId) {
-                    const dogRes = await dogApi.getDogWithId(dogId);
-                    setDog(dogRes.data.dogWithId);
-                    const relationRes = await dogApi.getRelation(dogId);
-                    setRelation(relationRes.data);
-                }
-            } catch (error) {
-                console.log(error);
-                toast.error("Failed to fetch dog profile");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [dogId]);
-
-    // useEffect(() => {
-    //     const fetchProfile = async () => {
-    //         setLoading(true);
-    //         try {
-    //             if (dogId) {
-    //                 const dogRes = await dogApi.getDogWithId(dogId);
-    //                 setDog(dogRes.data.dogWithId);
-    //                 const relationRes = await dogApi.getRelation(dogId);
-    //                 setRelation(relationRes.data);
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchProfile();
-    // }, [dogId]);
-
-    // console.log("params:" + dogId);
-
-    // useEffect(() => {
-    //     const fetchRelation = async () => {
-    //         setLoading(true);
-    //         try {
-    //             if (dogId) {
-    //                 const res = await dogApi.getRelation(dogId);
-    //                 setRelation(res.data);
-    //             }
-    //         } catch (err) {
-    //             console.log(err);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchRelation();
-    // }, []);
-
-    const deleteDog = async (dogId) => await dogApi.deleteDog(dogId);
-    const approveDog = async (dogId) => await dogApi.approveDogById(dogId);
-    const updateDog = async (data, dogId) =>
-        await dogApi.updateDogById(data, dogId);
-    // ///////////////
-
-    const handleDelete = async () => {
-        try {
-            await deleteDog(dog.id);
-            navigate("/allDog/1");
-            toast.success("Dog profile deleted successfully.");
-        } catch (err) {
-            toast.error("Failed to delete the dog profile.");
-        }
-    };
-
-    const handleAdoptClick = async () => {
-        try {
-            await createAdopt({ dog: dog.id });
-            toast.success("Adoption request sent successfully.");
-        } catch (err) {
-            console.log(err);
-            toast.error("Failed to send adoption request.");
-        }
-    };
-
-    const handleCancelAdopt = async () => {
-        try {
-            await cancelAdopt(dog.id);
-            setIsCancel(false);
-            toast.success("Adoption request canceled.");
-        } catch (error) {
-            toast.error("Failed to cancel adoption request.");
-        }
-    };
-    const handleApproveAdopt = async () => {
-        try {
-            await approveDog(dog.id);
-            toast.success("Adoption approved.");
-            navigate("/allDog/1");
-        } catch (error) {
-            toast.error("Failed to approve adoption.");
-        }
-    };
+    const {
+        relation,
+        loading,
+        dog,
+        handleAdoptClick,
+        handleApproveAdopt,
+        handleCancelAdopt,
+        handleDelete,
+    } = useDogProfile(dogId, setIsCancel);
 
     if (loading)
         return (
@@ -194,7 +90,7 @@ export default function ProfileDogContainer() {
                     ) : (
                         dog?.status === "PENDING" && (
                             <div className="bg-slate-500 p-2 rounded-2xl">
-                                -Pending-
+                                -Reserved-
                             </div>
                         )
                     )}
@@ -229,7 +125,11 @@ export default function ProfileDogContainer() {
                     overFlow="overflow-y-scroll"
                     onClose={() => setOpen(false)}
                 >
-                    <EditDogForm onClose={() => setOpen(false)} />
+                    <EditDogForm
+                        setOpen={setOpen}
+                        dog={dog}
+                        onClose={() => setOpen(false)}
+                    />
                 </Modal>
             )}
 

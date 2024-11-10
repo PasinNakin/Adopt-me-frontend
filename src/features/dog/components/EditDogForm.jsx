@@ -2,57 +2,20 @@ import React, { useState } from "react";
 import SelectOption from "../../../components/SelectOption";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
-import useDog from "../../../hooks/use-dog";
 import TextArea from "../../../components/TextArea";
-import validateUpdateDog from "../validations/validate-update-dog";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+// import * as dogApi from "../../../api/dog";
+// import validateUpdateDog from "../validations/validate-update-dog";
+// import { toast } from "react-toastify";
+// import useDogProfile from "../../../hooks/useDogProfile";
+import useBreed from "../../../hooks/use-breed";
+import { AGE, GENDER } from "../../../utils/initialValues";
+import useDogEdit from "../../../hooks/useDogEdit";
 
-export default function EditDogForm({ onClose }) {
-    const { breed, dog, updateDog } = useDog();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState({});
-    const [input, setInput] = useState({
-        name: dog?.name,
-        age: dog?.age,
-        breedId: dog?.breedId,
-        gender: dog?.gender,
-        description: dog?.description,
-    });
+export default function EditDogForm({ onClose, dog, setOpen }) {
+    const { loading, error, input, handleFormSubmit, handleChangeInput } =
+        useDogEdit(dog, setOpen);
 
-    const navigate = useNavigate();
-
-    const ageArr = [
-        { value: "PUPPY", name: "Puppy" },
-        { value: "ADULT", name: "Adult" },
-        { value: "SENIOR", name: "Senior" },
-    ];
-    const genderArr = [
-        { value: "MALE", name: "Male" },
-        { value: "FEMALE", name: "Female" },
-    ];
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            const validateError = validateUpdateDog(input);
-            if (validateError) {
-                return setError(validateError);
-            }
-            await updateDog(input, dog.id);
-            navigate("/allDog");
-            toast.success("Change is successfully");
-        } catch (err) {
-            toast.error(err.response?.data.message || "Somethong went wrong.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleChangeInput = (e) => {
-        setInput({ ...input, [e.target.name]: e.target.value });
-    };
+    const { breed } = useBreed();
 
     if (loading) {
         return (
@@ -69,31 +32,22 @@ export default function EditDogForm({ onClose }) {
         >
             <Input
                 name="name"
-                value={input.name}
                 text="name"
                 placeholder="dog name"
                 onChange={handleChangeInput}
                 errorMessage={error.name}
+                value={input.name}
             />
             <SelectOption
                 onChange={handleChangeInput}
                 name="age"
                 text="Age"
-                current={input.age}
                 errorMessage={error.age}
                 value={input.age}
             >
-                {ageArr.map((el) => {
-                    if (el.value === dog.age) {
-                        return (
-                            <option selected key={el.value} value={el.value}>
-                                {el.name}
-                            </option>
-                        );
-                    }
-
+                {AGE.map((el) => {
                     return (
-                        <option selected key={el.value} value={el.value}>
+                        <option key={el.value} value={el.value}>
                             {el.name}
                         </option>
                     );
@@ -105,15 +59,9 @@ export default function EditDogForm({ onClose }) {
                 name="breedId"
                 text="Breed"
                 errorMessage={error.breedId}
+                value={input.breedId}
             >
                 {breed.breed?.map((el) => {
-                    if (el.dogBreed === dog.breed.dogBreed) {
-                        return (
-                            <option selected key={el.id} value={el.id}>
-                                {el.dogBreed}
-                            </option>
-                        );
-                    }
                     return (
                         <option key={el.id} value={el.id}>
                             {el.dogBreed}
@@ -127,23 +75,15 @@ export default function EditDogForm({ onClose }) {
                 name="gender"
                 text="Gender"
                 errorMessage={error.gender}
+                value={input.gender}
             >
-                {genderArr.map((el) => {
-                    if (el.value === dog.gender) {
-                        return (
-                            <option selected key={el.value} value={el.value}>
-                                {el.name}
-                            </option>
-                        );
-                    }
+                {GENDER.map((el) => {
                     return (
                         <option key={el.value} value={el.value}>
                             {el.name}
                         </option>
                     );
                 })}
-                {/* <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option> */}
             </SelectOption>
 
             <TextArea

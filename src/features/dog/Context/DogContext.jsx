@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 export const DogContext = createContext();
 
 export default function DogContextProvider({ children }) {
-    const [allDog, setAllDog] = useState([]);
+    // const [allDog, setAllDog] = useState([]);
     const [dogInPage, setDogInPage] = useState([]);
     const { page } = useParams();
     const [searchDog, setSearchDog] = useState([]);
@@ -21,30 +21,16 @@ export default function DogContextProvider({ children }) {
         setError(null);
     };
 
-    const fetchAllDog = async () => {
-        try {
-            setLoading(true);
-            const response = await dogApi.getAllDog();
-            setAllDog(response.data);
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const fetchTotalPage = async () => {
-        try {
-            const res = await dogApi.getTotalPage();
-            setTotalPage(res.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     useEffect(() => {
+        const fetchTotalPage = async () => {
+            try {
+                const res = await dogApi.getTotalPage();
+                setTotalPage(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
         fetchTotalPage();
-        fetchAllDog();
     }, []);
 
     useEffect(() => {
@@ -83,7 +69,6 @@ export default function DogContextProvider({ children }) {
     return (
         <DogContext.Provider
             value={{
-                allDog,
                 searchDog,
                 fetchSearch,
                 loading,

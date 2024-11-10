@@ -6,13 +6,13 @@ import AdoptedDogContainer from "../features/dog/components/AdoptedDogContainer"
 
 function AdoptedPage() {
     return (
-        <DogContextProvider>
+        <>
             <PageLayout>
                 <HeaderHero headerText="Adopted Dog">
                     <AdoptedDogContainer />
                 </HeaderHero>
             </PageLayout>
-        </DogContextProvider>
+        </>
     );
 }
 

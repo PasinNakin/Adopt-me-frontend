@@ -6,11 +6,11 @@ import DogContextProvider from "../features/dog/Context/DogContext";
 
 export default function HomePage() {
     return (
-        <DogContextProvider>
+        <>
             <PageLayout>
                 <HomePageLayout />
             </PageLayout>
             <Footer />
-        </DogContextProvider>
+        </>
     );
 }

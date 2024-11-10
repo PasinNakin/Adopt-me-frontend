@@ -4,7 +4,7 @@ import validate from "../../../utils/validate";
 const age = ["PUPPY", "ADULT", "SENIOR"];
 const gender = ["MALE", "FEMALE"];
 
-const createDogSchema = Joi.object({
+const updateDogSchema = Joi.object({
     name: Joi.string().required().trim().messages({
         "string.empty": "name is required",
         "any.required": "name is required",
@@ -40,7 +40,7 @@ const createDogSchema = Joi.object({
 
 const validateUpdateDog = (input) => {
     console.log(input);
-    validate(createDogSchema)(input);
+    validate(updateDogSchema)(input);
 };
 
 export default validateUpdateDog;
