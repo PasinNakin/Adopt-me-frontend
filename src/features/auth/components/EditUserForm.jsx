@@ -59,7 +59,7 @@ function EditUserForm() {
     return (
         <form
             onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-start items-center py-4"
+            className="flex flex-col flex-1 justify-start items-center py-8"
         >
             <Input
                 name="firstName"

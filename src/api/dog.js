@@ -7,6 +7,7 @@ export const getDogBreed = () => axios.get("/dog/getDogBreed");
 export const getAllDog = () => axios.get("/dog/allDog");
 export const getExampleDog = () => axios.get("/dog/exampleDog");
 export const getAdoptedDog = () => axios.get("/dog/adoptedDog");
+export const getDogRequest = () => axios.get("/dog/requestDog");
 export const getDogWithId = (dogId) => axios.get(`/dog/profile/${dogId}`);
 export const getDogPagination = (page) => axios.get(`/dog/allDog/${page}`);
 export const getTotalPage = () => axios.get(`/dog/totalPage`);

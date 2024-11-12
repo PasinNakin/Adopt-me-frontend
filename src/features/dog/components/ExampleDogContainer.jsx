@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import DogCard from "../../../components/DogCard";
 import { useEffect } from "react";
 import * as dogApi from "../../../api/dog";
+import Spinner from "../../../components/Spinner";
 
 export default function ExampleDogContainer() {
     // const { allDog, loading } = useDog();
@@ -26,7 +27,7 @@ export default function ExampleDogContainer() {
     if (loading) {
         return (
             <div className=" flex items-center justify-center w-full h-[35vh] bg-[#1D2144]  rounded-badge">
-                <span className="loading loading-spinner loading-lg "></span>
+                <Spinner />
             </div>
         );
     }

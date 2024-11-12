@@ -2,22 +2,19 @@ import { createContext, useEffect, useState } from "react";
 
 import * as adoptApi from "../../api/adopt";
 
-import { toast } from "react-toastify";
-
 export const AdoptContext = createContext();
 
 export default function AdoptContextProvider({ children }) {
     const [adoptData, setAdoptData] = useState();
 
     const createAdopt = async (dogId) => {
-        // console.log(dogId);
-        const data = await adoptApi.createAdopt(dogId);
+        await adoptApi.createAdopt(dogId);
     };
 
     useEffect(() => {
         const fetchAdopt = async () => {
             try {
-                const res = await adoptApi.gatAdoptByUserId();
+                const res = await adoptApi.getAdoptByUserId();
 
                 setAdoptData(res.data.data);
             } catch (err) {
@@ -29,7 +26,6 @@ export default function AdoptContextProvider({ children }) {
 
     const cancelAdopt = async (dogId) => {
         await adoptApi.deleteAdopt(dogId);
-        toast.success("Cancel complete");
     };
 
     return (

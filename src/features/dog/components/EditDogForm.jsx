@@ -10,19 +10,21 @@ import TextArea from "../../../components/TextArea";
 import useBreed from "../../../hooks/use-breed";
 import { AGE, GENDER } from "../../../utils/initialValues";
 import useDogEdit from "../../../hooks/useDogEdit";
+import Spinner from "../../../components/Spinner";
 
-export default function EditDogForm({ onClose, dog, setOpen }) {
+export default function EditDogForm({
+    onClose,
+    dog,
+    setOpen,
+    updateDogProfile,
+}) {
     const { loading, error, input, handleFormSubmit, handleChangeInput } =
-        useDogEdit(dog, setOpen);
+        useDogEdit(dog, setOpen, updateDogProfile);
 
     const { breed } = useBreed();
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center w-full h-[35vh]">
-                <span className="loading loading-spinner loading-lg "></span>
-            </div>
-        );
+        return <Spinner />;
     }
 
     return (

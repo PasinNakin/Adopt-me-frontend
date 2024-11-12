@@ -10,6 +10,7 @@ import UserAdoptPage from "../pages/UserAdoptPage";
 import AdoptedPage from "../pages/AdoptedPage";
 import EditUserProfilePage from "../pages/EditUserProfilePage";
 import ProtectEditRoute from "../features/auth/components/ProtectEditRoute";
+import RequestDogPage from "../pages/RequsetDogPage";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
     {
         path: "/adopted",
         element: <AdoptedPage />,
+    },
+    {
+        path: "/request",
+        element: <RequestDogPage />,
     },
     {
         path: "/myAdopt",

@@ -8,19 +8,11 @@ import validateCreateDog from "../validations/validation-create-dog";
 import { toast } from "react-toastify";
 import PicLayout from "../../../layouts/PicLayout";
 import useBreed from "../../../hooks/use-breed";
-import { AGE, GENDER } from "../../../utils/initialValues";
-
-const initial = {
-    name: "",
-    age: "",
-    breedId: "",
-    gender: "",
-    profileImage: "",
-    description: "",
-};
+import { AGE, GENDER, INITIAL_DOG } from "../../../utils/initialValues";
+import Spinner from "../../../components/Spinner";
 
 export default function CreateDogForm() {
-    const [input, setInput] = useState(initial);
+    const [input, setInput] = useState(INITIAL_DOG);
     const [error, setError] = useState({});
     const [image, setImage] = useState(null);
     const { breed } = useBreed();
@@ -49,7 +41,7 @@ export default function CreateDogForm() {
             await dogApi.createDog(formData);
             toast.success("create successfully");
             setError({});
-            setInput(initial);
+            setInput(INITIAL_DOG);
             window.location.reload();
         } catch (err) {
             toast.error(err.response?.data.message);
@@ -59,11 +51,7 @@ export default function CreateDogForm() {
     };
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center w-full h-dvh">
-                <span className="loading loading-spinner loading-lg "></span>
-            </div>
-        );
+        return <Spinner />;
     }
 
     return (

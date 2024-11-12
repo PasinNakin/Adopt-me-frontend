@@ -3,13 +3,15 @@ import * as dogApi from "../api/dog";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAdopt from "./use-adopt";
+import { useParams } from "react-router-dom";
 
-export default function useDogProfile(dogId, setIsCancel) {
+export default function useDogProfile(setIsCancel) {
     const [dog, setDog] = useState({});
     const [relation, setRelation] = useState({});
     const [loading, setLoading] = useState(true);
-    const [isEdit, setIsEdit] = useState(true);
+    const [isRequest, setIsRequest] = useState(false);
 
+    const { dogId } = useParams();
     const { createAdopt, cancelAdopt } = useAdopt();
     const navigate = useNavigate();
 
@@ -30,9 +32,8 @@ export default function useDogProfile(dogId, setIsCancel) {
             }
         };
         fetchData();
-    }, [dogId]);
-    console.log(dog);
-
+    }, [dogId, isRequest]);
+    console.log(isRequest);
     const handleDelete = async () => {
         try {
             await dogApi.deleteDog(dog.id);
@@ -45,7 +46,8 @@ export default function useDogProfile(dogId, setIsCancel) {
 
     const handleAdoptClick = async () => {
         try {
-            await createAdopt({ dog: dog.id });
+            await createAdopt({ dogId: dog.id });
+            toggleRequest();
             toast.success("Adoption request sent successfully.");
         } catch (err) {
             console.log(err);
@@ -56,7 +58,7 @@ export default function useDogProfile(dogId, setIsCancel) {
     const handleCancelAdopt = async () => {
         try {
             await cancelAdopt(dog.id);
-            setIsCancel(false);
+            toggleRequest();
             toast.success("Adoption request canceled.");
         } catch (error) {
             toast.error("Failed to cancel adoption request.");
@@ -74,6 +76,11 @@ export default function useDogProfile(dogId, setIsCancel) {
     const updateDogProfile = (updatedDog) => {
         setDog(updatedDog);
     };
+
+    const toggleRequest = () => {
+        setIsRequest((prev) => !prev);
+    };
+
     return {
         relation,
         loading,
@@ -82,7 +89,6 @@ export default function useDogProfile(dogId, setIsCancel) {
         handleApproveAdopt,
         handleCancelAdopt,
         handleDelete,
-        setIsEdit,
         updateDogProfile,
     };
 }

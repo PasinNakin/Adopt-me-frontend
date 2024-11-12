@@ -1,19 +1,18 @@
 import React from "react";
-import useDog from "../../../hooks/use-dog";
 import DogCard from "../../../components/DogCard";
 import { useEffect } from "react";
 import { useState } from "react";
 import * as dogApi from "../../../api/dog";
 import Spinner from "../../../components/Spinner";
 
-function AdoptedDogContainer() {
+function RequestDogContainer() {
     const [loading, setLoading] = useState(true);
     const [dogs, setDogs] = useState([]);
 
     useEffect(() => {
-        const fectchAdoptedDog = async () => {
+        const fectchRequestDog = async () => {
             try {
-                const res = await dogApi.getAdoptedDog();
+                const res = await dogApi.getDogRequest();
                 setDogs(res.data);
             } catch (error) {
                 console.log(error);
@@ -21,7 +20,7 @@ function AdoptedDogContainer() {
                 setLoading(false);
             }
         };
-        fectchAdoptedDog();
+        fectchRequestDog();
     }, []);
 
     if (loading) {
@@ -34,7 +33,7 @@ function AdoptedDogContainer() {
                 {dogs?.map((el) => {
                     return (
                         <DogCard
-                            status={el.status}
+                            status="Reserved"
                             color="bg-orange-400"
                             key={el.id}
                             src={el.profileImage}
@@ -48,4 +47,4 @@ function AdoptedDogContainer() {
     );
 }
 
-export default AdoptedDogContainer;
+export default RequestDogContainer;

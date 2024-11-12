@@ -2,6 +2,7 @@ import React from "react";
 import DogCard from "../../../components/DogCard";
 import useDog from "../../../hooks/use-dog";
 import Pagination from "../../../components/Pagination";
+import Spinner from "../../../components/Spinner";
 
 export default function DogContainer() {
     const {
@@ -19,7 +20,7 @@ export default function DogContainer() {
     if (loading) {
         return (
             <div className=" flex items-center justify-center w-full h-[50vh] bg-[#1D2144] rounded-badge ">
-                <span className="loading loading-spinner loading-lg "></span>
+                <Spinner />
             </div>
         );
     }

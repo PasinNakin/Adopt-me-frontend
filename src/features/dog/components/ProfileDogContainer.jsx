@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import Button from "../../../components/Button";
 import Modal from "../../../components/Modal";
 import EditDogForm from "./EditDogForm";
 import useDogProfile from "../../../hooks/useDogProfile";
 import useAuth from "../../../hooks/use-auth";
+import Spinner from "../../../components/Spinner";
 
 export default function ProfileDogContainer() {
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
-    const [isCancel, setIsCancel] = useState(true);
-    const { dogId } = useParams();
     const { authUser } = useAuth();
     const navigate = useNavigate();
 
@@ -23,14 +21,13 @@ export default function ProfileDogContainer() {
         handleApproveAdopt,
         handleCancelAdopt,
         handleDelete,
-    } = useDogProfile(dogId, setIsCancel);
+        updateDogProfile,
+    } = useDogProfile();
 
     if (loading)
         return (
             <div>
-                <div className=" flex items-center justify-center w-full h-[50vh] rounded-badge ">
-                    <span className="loading loading-spinner loading-lg "></span>
-                </div>
+                <Spinner />
             </div>
         );
 
@@ -84,9 +81,7 @@ export default function ProfileDogContainer() {
 
                     {dog?.status === "AVAILABLE" &&
                     authUser?.role === "USER" ? (
-                        <Button onClick={() => handleAdoptClick}>
-                            Need Adopt
-                        </Button>
+                        <Button onClick={handleAdoptClick}>Need Adopt</Button>
                     ) : (
                         dog?.status === "PENDING" && (
                             <div className="bg-slate-500 p-2 rounded-2xl">
@@ -97,8 +92,7 @@ export default function ProfileDogContainer() {
 
                     {relation?.adopt?.length > 0 &&
                         dog.status !== "ADOPTED" &&
-                        authUser?.id === relation?.adopt[0]?.userId &&
-                        isCancel && (
+                        authUser?.id === relation?.adopt[0]?.userId && (
                             <Button onClick={handleCancelAdopt}>
                                 Cancel Adopt
                             </Button>
@@ -127,6 +121,7 @@ export default function ProfileDogContainer() {
                 >
                     <EditDogForm
                         setOpen={setOpen}
+                        updateDogProfile={updateDogProfile}
                         dog={dog}
                         onClose={() => setOpen(false)}
                     />

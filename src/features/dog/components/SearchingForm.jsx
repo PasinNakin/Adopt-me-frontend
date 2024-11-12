@@ -25,7 +25,7 @@ export default function SearchingForm() {
         e.preventDefault();
         if (searching.age || searching.gender || searching.breedId) {
             await fetchSearch(searching);
-        } else toast.error("please select one");
+        } else toast.error("Please select one.");
     };
 
     const handleReset = () => {
