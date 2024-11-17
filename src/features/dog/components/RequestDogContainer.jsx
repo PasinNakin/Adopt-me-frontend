@@ -29,7 +29,7 @@ function RequestDogContainer() {
 
     return (
         <div className="flex flex-col gap-5">
-            <div className="container grid grid-cols-4 gap-y-10 min-h-screen p-16 bg-[#1D2144] rounded-badge">
+            <div className="container grid grid-cols-4 gap-y-10 min-h-[33rem] p-16 bg-[#1D2144] rounded-badge">
                 {dogs?.map((el) => {
                     return (
                         <DogCard

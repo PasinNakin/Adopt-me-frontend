@@ -14,7 +14,7 @@ export default function useDogProfile(setIsCancel) {
     const { dogId } = useParams();
     const { createAdopt, cancelAdopt } = useAdopt();
     const navigate = useNavigate();
-
+    console.log(dog);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,7 +33,7 @@ export default function useDogProfile(setIsCancel) {
         };
         fetchData();
     }, [dogId, isRequest]);
-    console.log(isRequest);
+
     const handleDelete = async () => {
         try {
             await dogApi.deleteDog(dog.id);

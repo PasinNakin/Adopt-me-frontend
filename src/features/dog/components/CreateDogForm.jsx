@@ -55,7 +55,7 @@ export default function CreateDogForm() {
     }
 
     return (
-        <>
+        <div className="flex justify-center w-screen h-screen ">
             {image ? (
                 <PicLayout src={URL.createObjectURL(image)} />
             ) : (
@@ -146,6 +146,6 @@ export default function CreateDogForm() {
                     <Button type="submit">submit</Button>
                 </div>
             </form>
-        </>
+        </div>
     );
 }

@@ -17,9 +17,10 @@ export default function EditDogForm({
     dog,
     setOpen,
     updateDogProfile,
+    handleIsSubmit,
 }) {
     const { loading, error, input, handleFormSubmit, handleChangeInput } =
-        useDogEdit(dog, setOpen, updateDogProfile);
+        useDogEdit(dog, setOpen, updateDogProfile, handleIsSubmit);
 
     const { breed } = useBreed();
 

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import * as dogApi from "../api/dog";
-import useDogProfile from "./useDogProfile";
 import validateUpdateDog from "../features/dog/validations/validate-update-dog";
 
 export default function useDogEdit(dog, setOpen, updateDogProfile) {
@@ -12,6 +11,7 @@ export default function useDogEdit(dog, setOpen, updateDogProfile) {
         gender: dog?.gender || "",
         description: dog?.description || "",
     };
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({});
     const [input, setInput] = useState(initial);
@@ -24,7 +24,9 @@ export default function useDogEdit(dog, setOpen, updateDogProfile) {
             if (validateError) {
                 return setError(validateError);
             }
+
             const updatedDog = await dogApi.updateDogById(input, dog.id);
+
             updateDogProfile(updatedDog.data);
             setOpen(false);
             toast.success("Change is successfully");
