@@ -10,7 +10,8 @@ import UserAdoptPage from "../pages/UserAdoptPage";
 import AdoptedPage from "../pages/AdoptedPage";
 import EditUserProfilePage from "../pages/EditUserProfilePage";
 import ProtectEditRoute from "../features/auth/components/ProtectEditRoute";
-import RequestDogPage from "../pages/RequsetDogPage";
+import RequestDogPage from "../pages/RequestDogPage";
+// import RequestDogPage from "../pages/RequestDogPage";
 
 const router = createBrowserRouter([
     {

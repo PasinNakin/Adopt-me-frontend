@@ -45,7 +45,7 @@ export default function HeaderNav() {
     }, [dropdownRef]);
 
     const buttonLinkCss = `cursor-pointer hover:scale-105 ease-in duration-100`;
-    console.log(authUser);
+
     return (
         <div>
             <div className="bg-[#D8E3F4] h-[5rem] absolute top-10 right-[10%] left-[10%]  rounded-[50px] flex justify-between items-center shadow-xl z-10">

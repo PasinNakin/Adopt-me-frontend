@@ -61,66 +61,68 @@ export default function RegisterForm() {
     }
 
     return (
-        <form
-            onSubmit={handleFormSubmit}
-            className="flex flex-col flex-1 justify-center items-center pb-5"
-        >
-            <h1 className="text-[3rem] font-bold pt-20 text-white ">
-                Join Adopt Me HOOMAN
-            </h1>
-            <Input
-                name="email"
-                value={input.email}
-                text="Email"
-                placeholder="email"
-                onChange={handleChangeInput}
-                errorMessage={error.email}
-            />
-            <Input
-                name="password"
-                value={input.password}
-                type="password"
-                text="Password"
-                placeholder="password"
-                onChange={handleChangeInput}
-                errorMessage={error.password}
-            />
-            <Input
-                name="confirmPassword"
-                value={input.confirmPassword}
-                type="password"
-                text="confirm password"
-                placeholder="confirm password"
-                onChange={handleChangeInput}
-                errorMessage={error.confirmPassword}
-            />
-            <Input
-                name="firstName"
-                value={input.firstName}
-                text="First name"
-                placeholder="first name"
-                onChange={handleChangeInput}
-                errorMessage={error.firstName}
-            />
-            <Input
-                name="lastName"
-                value={input.lastName}
-                text="Last name"
-                placeholder="last name"
-                onChange={handleChangeInput}
-                errorMessage={error.lastName}
-            />
-            <Input
-                name="mobile"
-                value={input.mobile}
-                text="Mobile"
-                placeholder="mobile"
-                onChange={handleChangeInput}
-                errorMessage={error.mobile}
-            />
-            <div className="pt-6">
-                <Button type="submit">submit</Button>
-            </div>
-        </form>
+        <div className="flex justify-center w-screen h-dvh ">
+            <form
+                onSubmit={handleFormSubmit}
+                className="flex flex-col flex-1 justify-center items-center pb-5 "
+            >
+                <h1 className="text-[3rem] font-bold pt-20 text-white ">
+                    Join Adopt Me HOOMAN
+                </h1>
+                <Input
+                    name="email"
+                    value={input.email}
+                    text="Email"
+                    placeholder="email"
+                    onChange={handleChangeInput}
+                    errorMessage={error.email}
+                />
+                <Input
+                    name="password"
+                    value={input.password}
+                    type="password"
+                    text="Password"
+                    placeholder="password"
+                    onChange={handleChangeInput}
+                    errorMessage={error.password}
+                />
+                <Input
+                    name="confirmPassword"
+                    value={input.confirmPassword}
+                    type="password"
+                    text="confirm password"
+                    placeholder="confirm password"
+                    onChange={handleChangeInput}
+                    errorMessage={error.confirmPassword}
+                />
+                <Input
+                    name="firstName"
+                    value={input.firstName}
+                    text="First name"
+                    placeholder="first name"
+                    onChange={handleChangeInput}
+                    errorMessage={error.firstName}
+                />
+                <Input
+                    name="lastName"
+                    value={input.lastName}
+                    text="Last name"
+                    placeholder="last name"
+                    onChange={handleChangeInput}
+                    errorMessage={error.lastName}
+                />
+                <Input
+                    name="mobile"
+                    value={input.mobile}
+                    text="Mobile"
+                    placeholder="mobile"
+                    onChange={handleChangeInput}
+                    errorMessage={error.mobile}
+                />
+                <div className="pt-6">
+                    <Button type="submit">submit</Button>
+                </div>
+            </form>
+        </div>
     );
 }

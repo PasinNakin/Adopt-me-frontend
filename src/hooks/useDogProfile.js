@@ -14,7 +14,7 @@ export default function useDogProfile(setIsCancel) {
     const { dogId } = useParams();
     const { createAdopt, cancelAdopt } = useAdopt();
     const navigate = useNavigate();
-    console.log(dog);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -36,7 +36,7 @@ export default function useDogProfile(setIsCancel) {
 
     const handleDelete = async () => {
         try {
-            await dogApi.deleteDog(dog.id);
+            await dogApi.deleteDog(dogId);
             navigate("/allDog/1");
             toast.success("Dog profile deleted successfully.");
         } catch (err) {

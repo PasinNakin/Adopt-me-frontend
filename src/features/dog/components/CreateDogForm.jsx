@@ -51,7 +51,11 @@ export default function CreateDogForm() {
     };
 
     if (loading) {
-        return <Spinner />;
+        return (
+            <div className="flex justify-center w-screen h-screen ">
+                <Spinner />;
+            </div>
+        );
     }
 
     return (
@@ -64,7 +68,7 @@ export default function CreateDogForm() {
 
             <form
                 onSubmit={handleFormSubmit}
-                className="flex flex-col flex-1 justify-center items-center pb-"
+                className="flex flex-col flex-1 justify-center items-center "
             >
                 <h1 className="text-[3rem] font-bold pt-20 text-white ">
                     Create Dog Profile
